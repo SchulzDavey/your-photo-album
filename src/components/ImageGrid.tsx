@@ -1,0 +1,33 @@
+import CloudinaryImage from "@/components/CloudinaryImage";
+import { SearchResult } from "@/app/gallery/page";
+import { ReactNode } from "react";
+
+const ImageGrid = ({
+  images,
+  getImage,
+}: {
+  images: SearchResult[];
+  getImage: (imageData: SearchResult) => ReactNode;
+}) => {
+  const MAX_COLUMNS = 4;
+
+  const getColumns = (colIndex: number) => {
+    return images.filter((resource, index) => {
+      return index % MAX_COLUMNS === colIndex;
+    });
+  };
+
+  return (
+    <div className="grid grid-cols-4 gap-4">
+      {[getColumns(0), getColumns(1), getColumns(2), getColumns(3)].map(
+        (column, index) => (
+          <div key={index} className="flex flex-col gap-4">
+            {column.map(getImage)}
+          </div>
+        )
+      )}
+    </div>
+  );
+};
+
+export default ImageGrid;

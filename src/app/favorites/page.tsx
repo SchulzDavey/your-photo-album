@@ -1,4 +1,3 @@
-import ForceRefresh from "@/components/ForceRefresh";
 import cloudinary from "cloudinary";
 import UploadButton from "../gallery/UploadButton";
 import { SearchResult } from "../gallery/page";
@@ -14,7 +13,6 @@ const FavoritesPage = async () => {
 
   return (
     <section className="flex flex-col gap-8">
-      <ForceRefresh />
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold">Favorites Images</h1>
         <UploadButton />

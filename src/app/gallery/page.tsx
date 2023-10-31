@@ -1,7 +1,6 @@
 import cloudinary from "cloudinary";
-import CloudinaryImage from "./CloudinaryImage";
+import GalleryGrid from "./GalleryGrid";
 import UploadButton from "./UploadButton";
-import ForceRefresh from "@/components/ForceRefresh";
 
 export type SearchResult = {
   public_id: string;
@@ -18,25 +17,11 @@ const GalleryPage = async () => {
 
   return (
     <section className="flex flex-col gap-8">
-      <ForceRefresh />
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold">Gallery</h1>
         <UploadButton />
       </div>
-
-      <div className="grid grid-cols-4 gap-4">
-        {results.resources.map((result) => (
-          <div key={result.public_id}>
-            <CloudinaryImage
-              key={result.public_id}
-              imagedata={result}
-              alt="an image of something"
-              width="400"
-              height="300"
-            />
-          </div>
-        ))}
-      </div>
+      <GalleryGrid images={results.resources} />
     </section>
   );
 };

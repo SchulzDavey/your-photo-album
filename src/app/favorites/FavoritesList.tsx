@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import CloudinaryImage from "../gallery/CloudinaryImage";
+import { useEffect, useState } from "react";
+import CloudinaryImage from "../../components/CloudinaryImage";
 import { SearchResult } from "../gallery/page";
+import ImageGrid from "@/components/ImageGrid";
 
 const FavoritesList = ({
   initialResources,
@@ -11,13 +12,18 @@ const FavoritesList = ({
 }) => {
   const [resources, setResources] = useState(initialResources);
 
+  useEffect(() => {
+    setResources(initialResources);
+  }, [initialResources]);
+
   return (
-    <div className="grid grid-cols-4 gap-4">
-      {resources.map((result) => (
-        <div key={result.public_id}>
+    <ImageGrid
+      images={resources}
+      getImage={(imageData: SearchResult) => {
+        return (
           <CloudinaryImage
-            key={result.public_id}
-            imagedata={result}
+            key={imageData.public_id}
+            imageData={imageData}
             alt="an image of something"
             width="400"
             height="300"
@@ -30,9 +36,9 @@ const FavoritesList = ({
               );
             }}
           />
-        </div>
-      ))}
-    </div>
+        );
+      }}
+    />
   );
 };
 
