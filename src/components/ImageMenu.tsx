@@ -9,6 +9,8 @@ import AddToAlbumDialog from "./AddToAlbumDialog";
 import Menu from "./icons/Menu";
 import { SearchResult } from "@/app/gallery/page";
 import { useState } from "react";
+import Link from "next/link";
+import { Pencil } from "lucide-react";
 
 const ImageMenu = ({ image }: { image: SearchResult }) => {
   const [open, setOpen] = useState(false);
@@ -24,6 +26,14 @@ const ImageMenu = ({ image }: { image: SearchResult }) => {
         <DropdownMenuContent className="w-32">
           <DropdownMenuItem asChild>
             <AddToAlbumDialog image={image} onClose={() => setOpen(false)} />
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link
+              href={`/edit?publicId=${encodeURIComponent(image.public_id)}`}
+            >
+              <Pencil />
+              Edit Image
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
