@@ -5,10 +5,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FolderPlus } from "lucide-react";
+import AddToAlbumDialog from "./AddToAlbumDialog";
 import Menu from "./icons/Menu";
+import { SearchResult } from "@/app/gallery/page";
 
-const ImageMenu = () => {
+const ImageMenu = ({ image }: { image: SearchResult }) => {
   return (
     <div className="absolute top-2 right-2">
       <DropdownMenu>
@@ -18,9 +19,8 @@ const ImageMenu = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-32">
-          <DropdownMenuItem>
-            <FolderPlus />
-            <span>Add to Album</span>
+          <DropdownMenuItem asChild>
+            <AddToAlbumDialog image={image} />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
