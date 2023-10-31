@@ -1,24 +1,35 @@
 "use client";
 
-import Heart from "@/components/icons/Heart";
-import { CldImage } from "next-cloudinary";
-import SetAsFavoriteAction from "./actions";
-import { useTransition } from "react";
-import { SearchResult } from "./page";
 import FullHeart from "@/components/icons/FullHeart";
+import Heart from "@/components/icons/Heart";
+import { CldImage, CldImageProps } from "next-cloudinary";
+import { useState, useTransition } from "react";
+import SetAsFavoriteAction from "./actions";
+import { SearchResult } from "./page";
 
-const CloudinaryImage = (props: any, path: string) => {
+const CloudinaryImage = (
+  props: {
+    imagedata: SearchResult;
+    onUnheart?: (unheartedResource: SearchResult) => void;
+  } & Omit<CldImageProps, "src">
+) => {
+  const { imagedata, onUnheart } = props;
+
   const [transition, startTransition] = useTransition();
-  const isFavorited = props.tags.includes("favorite");
+  const [isFavorited, setIsFavorited] = useState(
+    imagedata.tags.includes("favorite")
+  );
 
   return (
     <div className="relative">
-      <CldImage {...props} src={props.public_id} />
+      <CldImage {...props} src={imagedata.public_id} alt="This is a new" />
       {isFavorited ? (
         <FullHeart
           onClick={() => {
+            onUnheart?.(imagedata);
+            setIsFavorited(false);
             startTransition(() => {
-              SetAsFavoriteAction(props.public_id, false, path);
+              SetAsFavoriteAction(imagedata.public_id, false);
             });
           }}
           className="absolute top-2 right-2 hover:text-white text-red-500 cursor-pointer"
@@ -27,7 +38,8 @@ const CloudinaryImage = (props: any, path: string) => {
         <Heart
           onClick={() => {
             startTransition(() => {
-              SetAsFavoriteAction(props.public_id, true, path);
+              setIsFavorited(true);
+              SetAsFavoriteAction(imagedata.public_id, true);
             });
           }}
           className="absolute top-2 right-2 hover:text-red-500 cursor-pointer"

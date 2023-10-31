@@ -11,10 +11,7 @@ const UploadButton = () => {
   return (
     <Button asChild>
       <div className="flex gap-2 items-center">
-        <CldUploadButton
-          onUpload={(results: UploadResult) => {}}
-          uploadPreset="v0u9n21m"
-        />
+        <CldUploadButton uploadPreset="v0u9n21m" />
       </div>
     </Button>
   );

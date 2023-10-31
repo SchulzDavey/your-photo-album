@@ -1,8 +1,8 @@
+import ForceRefresh from "@/components/ForceRefresh";
 import cloudinary from "cloudinary";
-import CloudinaryImage from "../gallery/CloudinaryImage";
 import UploadButton from "../gallery/UploadButton";
 import { SearchResult } from "../gallery/page";
-import ForceRefresh from "@/components/ForceRefresh";
+import FavoritesList from "./FavoritesList";
 
 const FavoritesPage = async () => {
   const results = (await cloudinary.v2.search
@@ -19,21 +19,7 @@ const FavoritesPage = async () => {
         <h1 className="text-4xl font-bold">Favorites Images</h1>
         <UploadButton />
       </div>
-
-      <div className="grid grid-cols-4 gap-4">
-        {results.resources.map((result) => (
-          <div key={result.public_id}>
-            <CloudinaryImage
-              key={result.public_id}
-              {...result}
-              path="/favorites"
-              alt="an image of something"
-              width="400"
-              height="300"
-            />
-          </div>
-        ))}
-      </div>
+      <FavoritesList initialResources={results.resources} />
     </section>
   );
 };

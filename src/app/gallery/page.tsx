@@ -29,8 +29,7 @@ const GalleryPage = async () => {
           <div key={result.public_id}>
             <CloudinaryImage
               key={result.public_id}
-              {...result}
-              path="/gallery"
+              imagedata={result}
               alt="an image of something"
               width="400"
               height="300"
