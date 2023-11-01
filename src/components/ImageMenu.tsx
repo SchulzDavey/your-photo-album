@@ -6,37 +6,54 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MenuIcon, Pencil } from "lucide-react";
+import { FolderPlus, MenuIcon, Pencil } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import AddToAlbumDialog from "./AddToAlbumDialog";
+import AlbumDialog from "./AlbumDialog";
 
 const ImageMenu = ({ image }: { image: SearchResult }) => {
   const [open, setOpen] = useState(false);
+  const [albumDialog, setAlbumDialog] = useState(false);
 
   return (
-    <div className="absolute top-2 right-2">
-      <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="w-8 h-8 p-0">
-            <MenuIcon />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-32">
-          <DropdownMenuItem asChild>
-            <AddToAlbumDialog image={image} onClose={() => setOpen(false)} />
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link
-              href={`/edit?publicId=${encodeURIComponent(image.public_id)}`}
-            >
-              <Pencil />
-              Edit Image
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <>
+      <div className="absolute top-2 right-2">
+        <DropdownMenu open={open} onOpenChange={setOpen}>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="w-8 h-8 p-0">
+              <MenuIcon />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-40">
+            <DropdownMenuItem asChild>
+              <div
+                onClick={() => {
+                  setAlbumDialog(true);
+                }}
+                className="flex justify-between"
+              >
+                <FolderPlus className="w-5 h-5" />
+                <p className="text-md">Add to Album</p>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link
+                className="flex justify-between"
+                href={`/edit?publicId=${encodeURIComponent(image.public_id)}`}
+              >
+                <Pencil className="w-5 h-5" />
+                <p className="text-md">Edit Image</p>
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <AlbumDialog
+        image={image}
+        albumDialog={albumDialog}
+        onClose={() => setAlbumDialog(false)}
+      />
+    </>
   );
 };
 

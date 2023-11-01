@@ -7,41 +7,33 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FolderPlus } from "lucide-react";
 import { useState } from "react";
 import AddImageToAlbum from "./CreateFolderAction";
 
-const AddToAlbumDialog = ({
+const AlbumDialog = ({
   image,
   onClose,
+  albumDialog,
 }: {
   image: SearchResult;
   onClose: () => void;
+  albumDialog: boolean;
 }) => {
   const [albumName, setAlbumName] = useState("");
-  const [open, setOpen] = useState(false);
 
   return (
     <Dialog
-      open={open}
+      open={albumDialog}
       onOpenChange={(newOpenState) => {
-        setOpen(newOpenState);
         if (!newOpenState) {
           onClose();
         }
       }}
     >
-      <DialogTrigger asChild>
-        <div>
-          <FolderPlus />
-          <span>Add to Album</span>
-        </div>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Add to album</DialogTitle>
           <DialogDescription>
@@ -65,7 +57,6 @@ const AddToAlbumDialog = ({
           <Button
             onClick={async () => {
               onClose();
-              setOpen(false);
               await AddImageToAlbum(image, albumName);
             }}
             type="submit"
@@ -78,4 +69,4 @@ const AddToAlbumDialog = ({
   );
 };
 
-export default AddToAlbumDialog;
+export default AlbumDialog;
