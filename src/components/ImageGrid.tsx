@@ -1,5 +1,5 @@
-import { SearchResult } from "@/app/gallery/page";
 import { ReactNode } from "react";
+import { SearchResult } from "../app/gallery/page";
 
 const ImageGrid = ({
   images,

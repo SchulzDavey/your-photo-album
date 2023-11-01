@@ -1,6 +1,6 @@
-import UploadButton from "@/app/gallery/UploadButton";
 import cloudinary from "cloudinary";
 import AlbumGrid from "./AlbumGrid";
+import UploadButton from "../../gallery/UploadButton";
 
 export type SearchResult = {
   public_id: string;

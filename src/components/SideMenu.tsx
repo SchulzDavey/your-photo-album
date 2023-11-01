@@ -1,8 +1,8 @@
-import { Folder } from "@/app/albums/page";
 import cloudinary from "cloudinary";
 import { Button } from "./ui/button";
 import { HeartIcon } from "lucide-react";
 import Link from "next/link";
+import { Folder } from "../app/albums/page";
 
 const SideMenu = async () => {
   const { folders } = (await cloudinary.v2.api.root_folders()) as {

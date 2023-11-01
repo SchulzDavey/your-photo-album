@@ -1,8 +1,8 @@
 "use client";
 
-import ImageGrid from "@/components/ImageGrid";
-import CloudinaryImage from "@/components/CloudinaryImage";
+import CloudinaryImage from "@/src/components/CloudinaryImage";
 import { SearchResult } from "./page";
+import ImageGrid from "@/src/components/ImageGrid";
 
 const AlbumGrid = ({ images }: { images: SearchResult[] }) => {
   return (

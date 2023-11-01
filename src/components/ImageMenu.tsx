@@ -1,15 +1,15 @@
-import { SearchResult } from "@/app/gallery/page";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { FolderPlus, MenuIcon, Pencil } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import AlbumDialog from "./AlbumDialog";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
+import { SearchResult } from "../app/gallery/page";
+import { Button } from "./ui/button";
 
 const ImageMenu = ({ image }: { image: SearchResult }) => {
   const [open, setOpen] = useState(false);

@@ -1,17 +1,16 @@
-import { SearchResult } from "@/app/gallery/page";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import AddImageToAlbum from "./CreateFolderAction";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import AddImageToAlbum from "./CreateFolderAction";
+  DialogDescription,
+} from "@radix-ui/react-dialog";
+import { Label } from "@radix-ui/react-label";
+import { SearchResult } from "../app/gallery/page";
+import { Button } from "./ui/button";
+import { DialogHeader, DialogFooter } from "./ui/dialog";
+import { Input } from "./ui/input";
 
 const AlbumDialog = ({
   image,

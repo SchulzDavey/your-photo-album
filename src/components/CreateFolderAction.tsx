@@ -1,7 +1,7 @@
 "use server";
 
-import { SearchResult } from "@/app/gallery/page";
 import cloudinary from "cloudinary";
+import { SearchResult } from "../app/gallery/page";
 
 const AddImageToAlbum = async (image: SearchResult, folder: string) => {
   const existingFolder = await cloudinary.v2.api.create_folder(folder);
