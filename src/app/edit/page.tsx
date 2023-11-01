@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { CldImage } from "next-cloudinary";
 import React, { useState } from "react";
 
@@ -9,6 +11,8 @@ const EditPage = ({
 }: {
   searchParams: { publicId: string };
 }) => {
+  const [prompt, setPrompt] = useState("");
+  const [pendingPrompt, setPendingPrompt] = useState("");
   const [filter, setFilter] = useState<
     undefined | "generative-fill" | "blur" | "grayscale" | "pixelate"
   >();
@@ -19,16 +23,28 @@ const EditPage = ({
         <div className="flex justify-between">
           <h1 className="text-4xl font-bold">Edit {publicId}</h1>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="flex flex-row gap-4">
           <Button onClick={() => setFilter(undefined)} variant="secondary">
             Clear All
           </Button>
-          <Button
-            onClick={() => setFilter("generative-fill")}
-            variant="secondary"
-          >
-            Apply Generative Fill
-          </Button>
+          <div className="flex flex-col gap-4">
+            <Button
+              onClick={() => {
+                setPrompt(pendingPrompt);
+                setFilter("generative-fill");
+              }}
+              variant="secondary"
+            >
+              Apply Generative Fill
+            </Button>
+            <Label htmlFor="prompt">Prompt</Label>
+            <Input
+              placeholder="Prompt..."
+              id="prompt"
+              value={pendingPrompt}
+              onChange={(e) => setPendingPrompt(e.currentTarget.value)}
+            />
+          </div>
           <Button onClick={() => setFilter("blur")} variant="secondary">
             Apply Blur
           </Button>
@@ -42,8 +58,8 @@ const EditPage = ({
 
         <div className="grid grid-cols-2 gap-4">
           <CldImage
-            width="300"
-            height="200"
+            width="800"
+            height="800"
             src={publicId}
             alt="This is a cool image"
           />
@@ -54,7 +70,9 @@ const EditPage = ({
               height="800"
               src={publicId}
               alt="This is a cool image"
-              fillBackground
+              fillBackground={{
+                prompt: prompt,
+              }}
               crop="pad"
             />
           )}
