@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FolderPlus, MenuIcon, Pencil } from "lucide-react";
+import { MenuIcon, Pencil } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import AddToAlbumDialog from "./AddToAlbumDialog";
