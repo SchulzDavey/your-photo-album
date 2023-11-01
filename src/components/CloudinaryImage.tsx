@@ -9,27 +9,27 @@ import ImageMenu from "./ImageMenu";
 
 const CloudinaryImage = (
   props: {
-    imageData: SearchResult;
+    image: SearchResult;
     onUnheart?: (unheartedResource: SearchResult) => void;
   } & Omit<CldImageProps, "src">
 ) => {
-  const { imageData, onUnheart } = props;
+  const { image, onUnheart } = props;
 
   const [transition, startTransition] = useTransition();
   const [isFavorited, setIsFavorited] = useState(
-    imageData.tags.includes("favorite")
+    image.tags.includes("favorite")
   );
 
   return (
     <div className="relative">
-      <CldImage {...props} src={imageData.public_id} alt="This is a new" />
+      <CldImage {...props} src={image.public_id} alt="This is a new" />
       {isFavorited ? (
         <HeartIcon
           onClick={() => {
-            onUnheart?.(imageData);
+            onUnheart?.(image);
             setIsFavorited(false);
             startTransition(() => {
-              SetAsFavoriteAction(imageData.public_id, false);
+              SetAsFavoriteAction(image.public_id, false);
             });
           }}
           className="absolute top-2 left-2 hover:text-white text-red-500 cursor-pointer"
@@ -39,13 +39,13 @@ const CloudinaryImage = (
           onClick={() => {
             startTransition(() => {
               setIsFavorited(true);
-              SetAsFavoriteAction(imageData.public_id, true);
+              SetAsFavoriteAction(image.public_id, true);
             });
           }}
           className="absolute top-2 left-2 hover:text-red-500 cursor-pointer"
         />
       )}
-      <ImageMenu image={imageData} />
+      <ImageMenu image={image} />
     </div>
   );
 };

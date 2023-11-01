@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FolderPlus, Pencil } from "lucide-react";
+import { FolderPlus, MenuIcon, Pencil } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import AddToAlbumDialog from "./AddToAlbumDialog";
@@ -19,7 +19,7 @@ const ImageMenu = ({ image }: { image: SearchResult }) => {
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="w-8 h-8 p-0">
-            <FolderPlus />
+            <MenuIcon />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-32">

@@ -19,11 +19,11 @@ const FavoritesList = ({
   return (
     <ImageGrid
       images={resources}
-      getImage={(imageData: SearchResult) => {
+      getImage={(image: SearchResult) => {
         return (
           <CloudinaryImage
-            key={imageData.public_id}
-            imageData={imageData}
+            key={image.public_id}
+            image={image}
             alt="an image of something"
             width="400"
             height="300"

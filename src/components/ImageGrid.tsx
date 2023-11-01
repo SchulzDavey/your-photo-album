@@ -6,7 +6,7 @@ const ImageGrid = ({
   getImage,
 }: {
   images: SearchResult[];
-  getImage: (imageData: SearchResult) => ReactNode;
+  getImage: (image: SearchResult) => ReactNode;
 }) => {
   const MAX_COLUMNS = 4;
 
