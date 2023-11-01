@@ -1,3 +1,4 @@
+import { SearchResult } from "@/app/gallery/page";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,12 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import AddToAlbumDialog from "./AddToAlbumDialog";
-import Menu from "./icons/Menu";
-import { SearchResult } from "@/app/gallery/page";
-import { useState } from "react";
+import { FolderPlus, Pencil } from "lucide-react";
 import Link from "next/link";
-import { Pencil } from "lucide-react";
+import { useState } from "react";
+import AddToAlbumDialog from "./AddToAlbumDialog";
 
 const ImageMenu = ({ image }: { image: SearchResult }) => {
   const [open, setOpen] = useState(false);
@@ -20,7 +19,7 @@ const ImageMenu = ({ image }: { image: SearchResult }) => {
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="w-8 h-8 p-0">
-            <Menu />
+            <FolderPlus />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-32">

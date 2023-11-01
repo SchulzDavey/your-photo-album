@@ -1,7 +1,6 @@
 "use client";
 
-import FullHeart from "@/components/icons/FullHeart";
-import Heart from "@/components/icons/Heart";
+import { HeartIcon } from "lucide-react";
 import { CldImage, CldImageProps } from "next-cloudinary";
 import { useState, useTransition } from "react";
 import SetAsFavoriteAction from "../app/gallery/actions";
@@ -25,7 +24,7 @@ const CloudinaryImage = (
     <div className="relative">
       <CldImage {...props} src={imageData.public_id} alt="This is a new" />
       {isFavorited ? (
-        <FullHeart
+        <HeartIcon
           onClick={() => {
             onUnheart?.(imageData);
             setIsFavorited(false);
@@ -36,7 +35,7 @@ const CloudinaryImage = (
           className="absolute top-2 left-2 hover:text-white text-red-500 cursor-pointer"
         />
       ) : (
-        <Heart
+        <HeartIcon
           onClick={() => {
             startTransition(() => {
               setIsFavorited(true);
