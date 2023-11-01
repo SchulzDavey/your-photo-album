@@ -1,15 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import CloudinaryImage from "../../components/CloudinaryImage";
-import { SearchResult } from "../gallery/page";
-import ImageGrid from "@/components/ImageGrid";
+import { useEffect, useState } from 'react';
+import CloudinaryImage from '../../components/CloudinaryImage';
+import ImageGrid from '@/src/components/ImageGrid';
+import { Asset } from '@prisma/client';
 
-const FavoritesList = ({
-  initialResources,
-}: {
-  initialResources: SearchResult[];
-}) => {
+const FavoritesList = ({ initialResources }: { initialResources: Asset[] }) => {
   const [resources, setResources] = useState(initialResources);
 
   useEffect(() => {
@@ -19,19 +15,18 @@ const FavoritesList = ({
   return (
     <ImageGrid
       images={resources}
-      getImage={(image: SearchResult) => {
+      getImage={(image: Asset) => {
         return (
           <CloudinaryImage
-            key={image.public_id}
+            key={image.id}
             image={image}
             alt="an image of something"
             width="400"
             height="300"
-            onUnheart={(unheartedResource: SearchResult) => {
+            onUnheart={(unheartedResource: Asset) => {
               return setResources(
                 resources.filter(
-                  (resource) =>
-                    resource.public_id != unheartedResource.public_id
+                  (resource) => resource.id != unheartedResource.id
                 )
               );
             }}

@@ -1,13 +1,25 @@
-"use client";
+'use client';
 
-import { Button } from "@/src/components/ui/button";
-import { CldUploadButton } from "next-cloudinary";
+import { Button } from '@/src/components/ui/button';
+import axios from 'axios';
+import { CldUploadButton } from 'next-cloudinary';
+import { useRouter } from 'next/navigation';
 
 const UploadButton = () => {
+  const router = useRouter();
+
   return (
     <Button asChild>
       <div className="flex gap-2 items-center">
-        <CldUploadButton uploadPreset="v0u9n21m" />
+        <CldUploadButton
+          onUpload={async (image) => {
+            await axios.post('/api/image/add', image).then((response) => {
+              console.log(response);
+              router.refresh();
+            });
+          }}
+          uploadPreset="v0u9n21m"
+        />
       </div>
     </Button>
   );

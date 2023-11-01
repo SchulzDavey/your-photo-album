@@ -1,27 +1,27 @@
-import { useState } from "react";
-import AddImageToAlbum from "./CreateFolderAction";
+import { Asset } from '@prisma/client';
 import {
   Dialog,
   DialogContent,
-  DialogTitle,
   DialogDescription,
-} from "@radix-ui/react-dialog";
-import { Label } from "@radix-ui/react-label";
-import { SearchResult } from "../app/gallery/page";
-import { Button } from "./ui/button";
-import { DialogHeader, DialogFooter } from "./ui/dialog";
-import { Input } from "./ui/input";
+  DialogTitle,
+} from '@radix-ui/react-dialog';
+import { useState } from 'react';
+import AddImageToAlbum from './CreateFolderAction';
+import { Button } from './ui/button';
+import { DialogFooter, DialogHeader } from './ui/dialog';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
 
 const AlbumDialog = ({
   image,
   onClose,
   albumDialog,
 }: {
-  image: SearchResult;
+  image: Asset;
   onClose: () => void;
   albumDialog: boolean;
 }) => {
-  const [albumName, setAlbumName] = useState("");
+  const [albumName, setAlbumName] = useState('');
 
   return (
     <Dialog

@@ -1,24 +1,22 @@
-import cloudinary from "cloudinary";
-import GalleryGrid from "./GalleryGrid";
-import UploadButton from "./UploadButton";
-import SearchForm from "@/src/components/SearchForm";
-
-export type SearchResult = {
-  public_id: string;
-  tags: string[];
-};
+import cloudinary from 'cloudinary';
+import GalleryGrid from './GalleryGrid';
+import UploadButton from './UploadButton';
+import SearchForm from '@/src/components/SearchForm';
+import prisma from '@/prisma/client';
+import { getServerSession } from 'next-auth';
+import authOptions from '../api/auth/[...nextauth]/authOptions';
 
 const GalleryPage = async ({
   searchParams: { search },
 }: {
   searchParams: { search: string };
 }) => {
-  const results = (await cloudinary.v2.search
-    .expression(`resource_type:image${search ? ` AND tags=${search}` : ""}`)
-    .sort_by("created_at", "desc")
-    .with_field("tags")
-    .max_results(30)
-    .execute()) as { resources: SearchResult[] };
+  const session = await getServerSession(authOptions);
+  const results = await prisma.asset.findMany({
+    where: {
+      userId: session?.user?.id,
+    },
+  });
 
   return (
     <section className="flex flex-col gap-8">
@@ -27,7 +25,7 @@ const GalleryPage = async ({
         <UploadButton />
       </div>
       <SearchForm initialSearch={search} />
-      <GalleryGrid images={results.resources} />
+      <GalleryGrid images={results} />
     </section>
   );
 };

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { PropsWithChildren, useEffect, useState } from "react";
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 
 const Hydrate = ({ children }: PropsWithChildren) => {
   const [hydrate, setHydrate] = useState(false);

@@ -3,11 +3,11 @@
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { Label } from '@radix-ui/react-label';
+import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
 export type RegisterProps = {
   name: string;

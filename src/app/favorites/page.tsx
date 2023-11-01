@@ -1,15 +1,15 @@
-import cloudinary from "cloudinary";
-import UploadButton from "../gallery/UploadButton";
-import { SearchResult } from "../gallery/page";
-import FavoritesList from "./FavoritesList";
+import cloudinary from 'cloudinary';
+import UploadButton from '../gallery/UploadButton';
+import FavoritesList from './FavoritesList';
+import { Asset } from '@prisma/client';
 
 const FavoritesPage = async () => {
   const results = (await cloudinary.v2.search
-    .expression("resource_type:image AND tags=favorite")
-    .sort_by("created_at", "desc")
-    .with_field("tags")
+    .expression('resource_type:image AND tags=favorite')
+    .sort_by('created_at', 'desc')
+    .with_field('tags')
     .max_results(30)
-    .execute()) as { resources: SearchResult[] };
+    .execute()) as { resources: Asset[] };
 
   return (
     <section className="flex flex-col gap-8">

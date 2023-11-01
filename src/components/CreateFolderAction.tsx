@@ -1,20 +1,20 @@
-"use server";
+'use server';
 
-import cloudinary from "cloudinary";
-import { SearchResult } from "../app/gallery/page";
+import { Asset } from '@prisma/client';
+import cloudinary from 'cloudinary';
 
-const AddImageToAlbum = async (image: SearchResult, folder: string) => {
+const AddImageToAlbum = async (image: Asset, folder: string) => {
   const existingFolder = await cloudinary.v2.api.create_folder(folder);
 
-  let parts = image.public_id.split("/");
+  let parts = image.id.split('/');
 
   if (parts.length > 1) {
     parts = parts.slice(1);
   }
 
-  const publicId = parts.join("/");
+  const publicId = parts.join('/');
 
-  await cloudinary.v2.uploader.rename(image.public_id, `${folder}/${publicId}`);
+  await cloudinary.v2.uploader.rename(image.id, `${folder}/${publicId}`);
 };
 
 export default AddImageToAlbum;

@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import CloudinaryImage from "@/src/components/CloudinaryImage";
-import { SearchResult } from "./page";
-import ImageGrid from "@/src/components/ImageGrid";
+import CloudinaryImage from '@/src/components/CloudinaryImage';
+import { SearchResult } from './page';
+import ImageGrid from '@/src/components/ImageGrid';
+import { Asset } from '@prisma/client';
 
-const AlbumGrid = ({ images }: { images: SearchResult[] }) => {
+const AlbumGrid = ({ images }: { images: Asset[] }) => {
   return (
     <ImageGrid
       images={images}
-      getImage={(image: SearchResult) => {
+      getImage={(image: Asset) => {
         return (
           <CloudinaryImage
-            key={image.public_id}
+            key={image.id}
             image={image}
             width="400"
             height="300"

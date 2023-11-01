@@ -46,6 +46,17 @@ model User {
   password      String?
   accounts      Account[]
   sessions      Session[]
+  Image         Asset[]
+}
+
+model Asset {
+  id         String   @id @default(cuid())
+  url        String?
+  media_type String?
+  added_at   DateTime @default(now())
+  albumId    String?
+  user       User?    @relation(fields: [userId], references: [id])
+  userId     String?
 }
 
 model VerificationToken {

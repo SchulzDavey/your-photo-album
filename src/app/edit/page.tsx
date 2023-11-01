@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CldImage } from "next-cloudinary";
-import React, { useState } from "react";
+import { Button } from '@/src/components/ui/button';
+import { Input } from '@/src/components/ui/input';
+import { Label } from '@radix-ui/react-label';
+import { CldImage } from 'next-cloudinary';
+import React, { useState } from 'react';
 
 const EditPage = ({
   searchParams: { publicId },
 }: {
   searchParams: { publicId: string };
 }) => {
-  const [prompt, setPrompt] = useState("");
-  const [pendingPrompt, setPendingPrompt] = useState("");
+  const [prompt, setPrompt] = useState('');
+  const [pendingPrompt, setPendingPrompt] = useState('');
   const [filter, setFilter] = useState<
-    undefined | "generative-fill" | "blur" | "grayscale" | "pixelate"
+    undefined | 'generative-fill' | 'blur' | 'grayscale' | 'pixelate'
   >();
 
   return (
@@ -31,7 +31,7 @@ const EditPage = ({
             <Button
               onClick={() => {
                 setPrompt(pendingPrompt);
-                setFilter("generative-fill");
+                setFilter('generative-fill');
               }}
               variant="secondary"
             >
@@ -45,13 +45,13 @@ const EditPage = ({
               onChange={(e) => setPendingPrompt(e.currentTarget.value)}
             />
           </div>
-          <Button onClick={() => setFilter("blur")} variant="secondary">
+          <Button onClick={() => setFilter('blur')} variant="secondary">
             Apply Blur
           </Button>
-          <Button onClick={() => setFilter("grayscale")} variant="secondary">
+          <Button onClick={() => setFilter('grayscale')} variant="secondary">
             Apply Grayscale
           </Button>
-          <Button onClick={() => setFilter("pixelate")} variant="secondary">
+          <Button onClick={() => setFilter('pixelate')} variant="secondary">
             Apply Pixelate
           </Button>
         </div>
@@ -64,7 +64,7 @@ const EditPage = ({
             alt="This is a cool image"
           />
 
-          {filter === "generative-fill" && (
+          {filter === 'generative-fill' && (
             <CldImage
               width="800"
               height="800"
@@ -77,7 +77,7 @@ const EditPage = ({
             />
           )}
 
-          {filter === "blur" && (
+          {filter === 'blur' && (
             <CldImage
               width="800"
               height="800"
@@ -87,7 +87,7 @@ const EditPage = ({
             />
           )}
 
-          {filter === "grayscale" && (
+          {filter === 'grayscale' && (
             <CldImage
               width="800"
               height="800"
@@ -97,7 +97,7 @@ const EditPage = ({
             />
           )}
 
-          {filter === "pixelate" && (
+          {filter === 'pixelate' && (
             <CldImage
               width="800"
               height="800"

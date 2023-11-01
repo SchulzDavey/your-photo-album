@@ -1,17 +1,17 @@
-import { FolderPlus, MenuIcon, Pencil } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
-import AlbumDialog from "./AlbumDialog";
+import { Asset } from '@prisma/client';
 import {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "@radix-ui/react-dropdown-menu";
-import { SearchResult } from "../app/gallery/page";
-import { Button } from "./ui/button";
+  DropdownMenuTrigger,
+} from '@radix-ui/react-dropdown-menu';
+import { FolderPlus, MenuIcon, Pencil } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import AlbumDialog from './AlbumDialog';
+import { Button } from './ui/button';
 
-const ImageMenu = ({ image }: { image: SearchResult }) => {
+const ImageMenu = ({ image }: { image: Asset }) => {
   const [open, setOpen] = useState(false);
   const [albumDialog, setAlbumDialog] = useState(false);
 
@@ -39,7 +39,7 @@ const ImageMenu = ({ image }: { image: SearchResult }) => {
             <DropdownMenuItem asChild>
               <Link
                 className="flex justify-between"
-                href={`/edit?publicId=${encodeURIComponent(image.public_id)}`}
+                href={`/edit?publicId=${encodeURIComponent(image.id)}`}
               >
                 <Pencil className="w-5 h-5" />
                 <p className="text-md">Edit Image</p>

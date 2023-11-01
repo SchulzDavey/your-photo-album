@@ -1,12 +1,12 @@
-import { ReactNode } from "react";
-import { SearchResult } from "../app/gallery/page";
+import { Asset } from '@prisma/client';
+import { ReactNode } from 'react';
 
 const ImageGrid = ({
   images,
   getImage,
 }: {
-  images: SearchResult[];
-  getImage: (image: SearchResult) => ReactNode;
+  images: Asset[];
+  getImage: (image: Asset) => ReactNode;
 }) => {
   const MAX_COLUMNS = 4;
 
