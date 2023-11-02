@@ -1,27 +1,42 @@
 import { Asset } from '@prisma/client';
+import { useState } from 'react';
+import { Button } from './ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
+  DialogHeader,
   DialogTitle,
-} from '@radix-ui/react-dialog';
-import { useState } from 'react';
-import AddImageToAlbum from './CreateFolderAction';
-import { Button } from './ui/button';
-import { DialogFooter, DialogHeader } from './ui/dialog';
+} from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const AlbumDialog = ({
-  image,
+  asset,
   onClose,
   albumDialog,
 }: {
-  image: Asset;
+  asset: Asset;
   onClose: () => void;
   albumDialog: boolean;
 }) => {
+  const router = useRouter();
   const [albumName, setAlbumName] = useState('');
+
+  const createAlbum = async (asset: any, albumName: any) => {
+    await axios
+      .post('/api/album', {
+        asset,
+        albumName,
+      })
+      .then((response: any) => {
+        router.refresh();
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <Dialog
@@ -54,9 +69,9 @@ const AlbumDialog = ({
         </div>
         <DialogFooter>
           <Button
-            onClick={async () => {
+            onClick={() => {
+              createAlbum(asset, albumName);
               onClose();
-              await AddImageToAlbum(image, albumName);
             }}
             type="submit"
           >

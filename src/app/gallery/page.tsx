@@ -1,10 +1,9 @@
-import cloudinary from 'cloudinary';
-import GalleryGrid from './GalleryGrid';
-import UploadButton from './UploadButton';
-import SearchForm from '@/src/components/SearchForm';
 import prisma from '@/prisma/client';
+import SearchForm from '@/src/components/SearchForm';
 import { getServerSession } from 'next-auth';
 import authOptions from '../api/auth/[...nextauth]/authOptions';
+import GalleryGrid from './GalleryGrid';
+import UploadButton from './UploadButton';
 
 const GalleryPage = async ({
   searchParams: { search },
@@ -25,7 +24,7 @@ const GalleryPage = async ({
         <UploadButton />
       </div>
       <SearchForm initialSearch={search} />
-      <GalleryGrid images={results} />
+      <GalleryGrid assets={results} />
     </section>
   );
 };

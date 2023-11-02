@@ -13,7 +13,7 @@ const UploadButton = () => {
       <div className="flex gap-2 items-center">
         <CldUploadButton
           onUpload={async (image) => {
-            await axios.post('/api/image/add', image).then((response) => {
+            await axios.post('/api/asset', image).then((response) => {
               console.log(response);
               router.refresh();
             });

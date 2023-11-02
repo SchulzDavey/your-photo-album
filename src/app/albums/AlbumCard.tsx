@@ -1,26 +1,45 @@
-import Link from "next/link";
-import { Folder } from "./page";
-import { Button } from "@/src/components/ui/button";
+'use client';
+
+import { Button } from '@/src/components/ui/button';
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/src/components/ui/card";
+} from '@/src/components/ui/card';
+import { Album } from '@prisma/client';
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-const AlbumCard = ({ folder }: { folder: Folder }) => {
+const AlbumCard = ({ album }: { album: Album }) => {
+  const router = useRouter();
+
+  const deleteAlbum = async (data: Album) => {
+    await axios.delete('/api/album/' + data.id).then((response) => {
+      router.refresh();
+    });
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{folder.name}</CardTitle>
-        <CardDescription>Show all your {folder.name} images</CardDescription>
+        <CardTitle>{album.name}</CardTitle>
+        <CardDescription>Show all your {album.name} images</CardDescription>
       </CardHeader>
       <CardContent></CardContent>
-      <CardFooter className="flex justify-between">
-        <Button asChild>
-          <Link href={`/albums/${folder.name}`}>Vieuw Album</Link>
+      <CardFooter className="w-full flex flex-col justify-between gap-3">
+        <Button className="w-full" asChild>
+          <Link href={`/albums/${album.id}`}>Vieuw Album</Link>
+        </Button>
+        <Button
+          onClick={() => deleteAlbum(album)}
+          className="w-full"
+          variant="destructive"
+        >
+          Delete Album
         </Button>
       </CardFooter>
     </Card>

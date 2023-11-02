@@ -1,6 +1,10 @@
 import cloudinary from 'cloudinary';
 import AlbumGrid from './AlbumGrid';
 import UploadButton from '../../gallery/UploadButton';
+import { getServerSession } from 'next-auth';
+import authOptions from '../../api/auth/[...nextauth]/authOptions';
+import prisma from '@/prisma/client';
+import { useSearchParams } from 'next/navigation';
 
 export type SearchResult = {
   public_id: string;
@@ -12,20 +16,26 @@ const GalleryPage = async ({
 }: {
   params: { path: string };
 }) => {
-  const results = (await cloudinary.v2.search
-    .expression(`resource_type:image AND folder=${path}`)
-    .sort_by('created_at', 'desc')
-    .with_field('tags')
-    .max_results(30)
-    .execute()) as { resources: SearchResult[] };
+  const session = await getServerSession(authOptions);
+  const album = await prisma.album.findUnique({
+    where: {
+      id: path,
+    },
+  });
+  const assets = await prisma.asset.findMany({
+    where: {
+      userId: session?.user?.id,
+      albumId: path,
+    },
+  });
 
   return (
     <section className="flex flex-col gap-8">
       <div className="flex justify-between">
-        <h1 className="text-4xl font-bold">Album {path}</h1>
+        <h1 className="text-4xl font-bold">Album {album?.name}</h1>
         <UploadButton />
       </div>
-      <AlbumGrid images={results.resources} />
+      <AlbumGrid assets={assets} />
     </section>
   );
 };

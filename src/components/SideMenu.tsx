@@ -1,13 +1,25 @@
-import cloudinary from "cloudinary";
-import { Button } from "./ui/button";
-import { HeartIcon } from "lucide-react";
-import Link from "next/link";
-import { Folder } from "../app/albums/page";
+import prisma from '@/prisma/client';
+import { HeartIcon } from 'lucide-react';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
+import authOptions from '../app/api/auth/[...nextauth]/authOptions';
+import { Button } from './ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from './ui/dropdown-menu';
 
 const SideMenu = async () => {
-  const { folders } = (await cloudinary.v2.api.root_folders()) as {
-    folders: Folder[];
-  };
+  const session = await getServerSession(authOptions);
+  const albums = await prisma.album.findMany({
+    where: {
+      userId: session?.user?.id,
+    },
+  });
 
   return (
     <div className="pb-12 w-1/5">
@@ -40,42 +52,40 @@ const SideMenu = async () => {
                 Gallery
               </Link>
             </Button>
-            <Button
-              asChild
-              variant="ghost"
-              className="w-full justify-start flex gap-2"
-            >
-              <Link href="/albums">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
-                  />
-                </svg>
-                Albums
-              </Link>
-            </Button>
-            <div className="flex flex-col gap-3">
-              {folders.map((folder) => (
-                <Button
-                  variant="ghost"
-                  asChild
-                  key={folder.path}
-                  className="w-full justify-start gap-2"
-                >
-                  <Link className="pl-8" href={`/albums/${folder.path}`}>
-                    {folder.name}
-                  </Link>
-                </Button>
-              ))}
+            <div className="ml-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <div className="w-full justify-start flex gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+                      />
+                    </svg>
+                    Albums
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Albums</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {albums.map((album) => (
+                    <DropdownMenuItem className="cursor-pointer" key={album.id}>
+                      <Link href={`/albums/${album.id}`}>{album.name}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                  <DropdownMenuItem>
+                    <Link href="/albums">Bekijk Alle Albums</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
             <Button
               asChild

@@ -1,13 +1,12 @@
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
-import { redirect } from 'next/navigation';
 import AuthProvider from '../components/AuthProvider';
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
 import Hydrate from './Hydrate';
-import './globals.css';
 import authOptions from './api/auth/[...nextauth]/authOptions';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
