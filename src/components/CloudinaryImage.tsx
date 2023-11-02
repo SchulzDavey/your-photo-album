@@ -1,6 +1,6 @@
 'use client';
 
-import { Asset } from '@prisma/client';
+import { Album, Asset } from '@prisma/client';
 import { HeartIcon } from 'lucide-react';
 import { CldImage, CldImageProps } from 'next-cloudinary';
 import { useState, useTransition } from 'react';
@@ -10,10 +10,11 @@ import ImageMenu from './ImageMenu';
 const CloudinaryImage = (
   props: {
     asset: Asset;
+    albums: Album[];
     onUnheart?: (unheartedResource: Asset) => void;
   } & Omit<CldImageProps, 'src'>
 ) => {
-  const { asset, onUnheart } = props;
+  const { asset, onUnheart, albums } = props;
 
   const [transition, startTransition] = useTransition();
   const [isFavorited, setIsFavorited] = useState(false);
@@ -46,7 +47,7 @@ const CloudinaryImage = (
           className="absolute top-2 left-2 hover:text-red-500 cursor-pointer"
         />
       )}
-      <ImageMenu asset={asset} />
+      <ImageMenu albums={albums} asset={asset} />
     </div>
   );
 };

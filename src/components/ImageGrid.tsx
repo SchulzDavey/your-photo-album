@@ -1,17 +1,17 @@
-import { Asset } from '@prisma/client';
+import { Album, Asset } from '@prisma/client';
 import { ReactNode } from 'react';
 
-const ImageGrid = ({
-  images,
-  getImage,
-}: {
-  images: Asset[];
-  getImage: (image: Asset) => ReactNode;
-}) => {
+export type ImageGridTypes = {
+  assets: Asset[];
+  albums?: Album[];
+  getImage?: (image: Asset) => ReactNode;
+};
+
+const ImageGrid = ({ assets, getImage }: ImageGridTypes) => {
   const MAX_COLUMNS = 4;
 
   const getColumns = (colIndex: number) => {
-    return images.filter((resource, index) => {
+    return assets.filter((resource, index) => {
       return index % MAX_COLUMNS === colIndex;
     });
   };
@@ -21,7 +21,7 @@ const ImageGrid = ({
       {[getColumns(0), getColumns(1), getColumns(2), getColumns(3)].map(
         (column, index) => (
           <div key={index} className="flex flex-col gap-4">
-            {column.map(getImage)}
+            {column.map(getImage!)}
           </div>
         )
       )}

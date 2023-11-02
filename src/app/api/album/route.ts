@@ -68,3 +68,21 @@ export async function POST(request: NextRequest, response: NextResponse) {
     return NextResponse.json({ album, updatedAsset }, { status: 200 });
   }
 }
+
+export async function GET(request: NextRequest, response: NextResponse) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ message: 'User not found' }, { status: 400 });
+  }
+
+  const body = await request.json();
+
+  const albums = await prisma.album.findMany({
+    where: {
+      userId: session?.user?.id,
+    },
+  });
+
+  return NextResponse.json({ albums }, { status: 200 });
+}

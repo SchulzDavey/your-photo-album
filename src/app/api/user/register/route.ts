@@ -1,7 +1,7 @@
-import prisma from "@/prisma/client";
-import { registerSchema } from "@/src/app/schemas/registerSchema";
-import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcrypt";
+import prisma from '@/prisma/client';
+import { registerSchema } from '@/src/app/schemas/registerSchema';
+import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from 'bcrypt';
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const body = await request.json();
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   if (!validation.success) {
     return NextResponse.json(
-      { message: "All fields are required" },
+      { message: 'All fields are required' },
       { status: 400 }
     );
   }
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   if (existingUser) {
     return NextResponse.json(
-      { message: "User already exists" },
+      { message: 'User already exists' },
       { status: 409 }
     );
   }

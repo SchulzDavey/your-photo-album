@@ -17,7 +17,6 @@ const UploadButton = () => {
             await axios
               .post('/api/asset', { image, params })
               .then((response) => {
-                console.log(response);
                 router.refresh();
               });
           }}

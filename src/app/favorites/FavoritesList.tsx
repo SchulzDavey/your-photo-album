@@ -14,7 +14,7 @@ const FavoritesList = ({ initialResources }: { initialResources: Asset[] }) => {
 
   return (
     <ImageGrid
-      images={resources}
+      assets={resources}
       getImage={(asset: Asset) => {
         return (
           <CloudinaryImage

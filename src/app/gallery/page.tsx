@@ -16,6 +16,11 @@ const GalleryPage = async ({
       userId: session?.user?.id,
     },
   });
+  const albums = await prisma.album.findMany({
+    where: {
+      userId: session?.user?.id,
+    },
+  });
 
   return (
     <section className="flex flex-col gap-8">
@@ -24,7 +29,7 @@ const GalleryPage = async ({
         <UploadButton />
       </div>
       <SearchForm initialSearch={search} />
-      <GalleryGrid assets={results} />
+      <GalleryGrid albums={albums} assets={results} />
     </section>
   );
 };

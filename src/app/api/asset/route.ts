@@ -1,7 +1,7 @@
+import prisma from '@/prisma/client';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '../auth/[...nextauth]/authOptions';
-import prisma from '@/prisma/client';
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const session = await getServerSession(authOptions);
@@ -28,5 +28,20 @@ export async function POST(request: NextRequest, response: NextResponse) {
     },
   });
 
-  return NextResponse.json(addImage, { status: 200 });
+  if (image.info.tags.length > 0) {
+    for (const tag of image.info.tags) {
+      await prisma.tag.create({
+        data: {
+          name: tag,
+          asset: {
+            connect: {
+              id: image.info.public_id,
+            },
+          },
+        },
+      });
+    }
+  }
+
+  return NextResponse.json({ addImage }, { status: 200 });
 }

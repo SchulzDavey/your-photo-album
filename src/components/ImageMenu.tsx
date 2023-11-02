@@ -1,6 +1,8 @@
-import { Asset } from '@prisma/client';
+import { Album, Asset } from '@prisma/client';
+import axios from 'axios';
 import { DeleteIcon, FolderPlus, MenuIcon, Pencil } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import AlbumDialog from './AlbumDialog';
 import { Button } from './ui/button';
@@ -10,10 +12,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
-const ImageMenu = ({ asset }: { asset: Asset }) => {
+const ImageMenu = ({ asset, albums }: { asset: Asset; albums: Album[] }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [albumDialog, setAlbumDialog] = useState(false);
@@ -70,6 +70,7 @@ const ImageMenu = ({ asset }: { asset: Asset }) => {
         </DropdownMenu>
       </div>
       <AlbumDialog
+        albums={albums}
         asset={asset}
         albumDialog={albumDialog}
         onClose={() => setAlbumDialog(false)}

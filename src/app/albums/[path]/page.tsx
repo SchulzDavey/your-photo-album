@@ -1,15 +1,8 @@
-import cloudinary from 'cloudinary';
-import AlbumGrid from './AlbumGrid';
-import UploadButton from '../../gallery/UploadButton';
+import prisma from '@/prisma/client';
 import { getServerSession } from 'next-auth';
 import authOptions from '../../api/auth/[...nextauth]/authOptions';
-import prisma from '@/prisma/client';
-import { useSearchParams } from 'next/navigation';
-
-export type SearchResult = {
-  public_id: string;
-  tags: string[];
-};
+import UploadButton from '../../gallery/UploadButton';
+import AlbumGrid from './AlbumGrid';
 
 const GalleryPage = async ({
   params: { path },
@@ -28,6 +21,11 @@ const GalleryPage = async ({
       albumId: path,
     },
   });
+  const albums = await prisma.album.findMany({
+    where: {
+      userId: session?.user?.id,
+    },
+  });
 
   return (
     <section className="flex flex-col gap-8">
@@ -35,7 +33,7 @@ const GalleryPage = async ({
         <h1 className="text-4xl font-bold">Album {album?.name}</h1>
         <UploadButton />
       </div>
-      <AlbumGrid assets={assets} />
+      <AlbumGrid albums={albums} assets={assets} />
     </section>
   );
 };

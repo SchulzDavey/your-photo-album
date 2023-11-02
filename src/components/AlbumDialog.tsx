@@ -1,32 +1,37 @@
-import { Asset } from '@prisma/client';
+'use client';
+
+import { Album, Asset, User } from '@prisma/client';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import AlbumSelect from './AlbumSelect';
 import { Button } from './ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { UserProps } from './Header';
 
 const AlbumDialog = ({
   asset,
+  albums,
   onClose,
   albumDialog,
 }: {
   asset: Asset;
+  albums: Album[];
   onClose: () => void;
   albumDialog: boolean;
 }) => {
   const router = useRouter();
   const [albumName, setAlbumName] = useState('');
 
-  const createAlbum = async (asset: any, albumName: any) => {
+  const createAlbum = async (asset: any, albumName: string) => {
     await axios
       .post('/api/album', {
         asset,
@@ -49,25 +54,22 @@ const AlbumDialog = ({
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add to album</DialogTitle>
-          <DialogDescription>
-            Type an album you want to move this image into
-          </DialogDescription>
+          <DialogTitle>Create or Move an Album</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div className="flex flex-col items-start gap-3">
             <Label htmlFor="album-name" className="text-right">
               Album
             </Label>
             <Input
-              onChange={(e) => setAlbumName(e.currentTarget.value)}
+              onChange={(e) => {
+                setAlbumName(e.currentTarget.value);
+              }}
               id="album-name"
               defaultValue={albumName}
               className="col-span-3"
             />
           </div>
-        </div>
-        <DialogFooter>
           <Button
             onClick={() => {
               createAlbum(asset, albumName);
@@ -75,8 +77,11 @@ const AlbumDialog = ({
             }}
             type="submit"
           >
-            Add to Album
+            Create Album
           </Button>
+        </div>
+        <DialogFooter>
+          <AlbumSelect onClose={onClose} albums={albums} asset={asset} />
         </DialogFooter>
       </DialogContent>
     </Dialog>
