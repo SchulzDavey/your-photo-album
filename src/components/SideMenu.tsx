@@ -78,7 +78,9 @@ const SideMenu = async () => {
                   <DropdownMenuSeparator />
                   {albums.map((album) => (
                     <DropdownMenuItem className="cursor-pointer" key={album.id}>
-                      <Link href={`/albums/${album.id}`}>{album.name}</Link>
+                      <Link className="w-full" href={`/albums/${album.id}`}>
+                        {album.name}
+                      </Link>
                     </DropdownMenuItem>
                   ))}
                   <DropdownMenuItem>

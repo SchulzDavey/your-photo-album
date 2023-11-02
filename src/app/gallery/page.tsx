@@ -14,10 +14,17 @@ const GalleryPage = async ({
   const results = await prisma.asset.findMany({
     where: {
       userId: session?.user?.id,
+      ...(search && search !== ''
+        ? {
+            Tag: {
+              some: {
+                name: search,
+              },
+            },
+          }
+        : {}),
     },
-    include: {
-      Tag: true,
-    },
+    include: { Tag: true },
   });
   const albums = await prisma.album.findMany({
     where: {

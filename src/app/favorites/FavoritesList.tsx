@@ -23,13 +23,6 @@ const FavoritesList = ({ assets }: { assets: Asset[] }) => {
             alt="an image of something"
             width="400"
             height="300"
-            onUnheart={(unheartedResource: Asset) => {
-              return setResources(
-                resources.filter(
-                  (resource) => resource.id != unheartedResource.id
-                )
-              );
-            }}
           />
         );
       }}

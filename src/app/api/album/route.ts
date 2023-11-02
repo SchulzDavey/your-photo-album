@@ -32,6 +32,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   const existingAlbum = await prisma.album.findMany({
     where: {
+      userId: session?.user?.id,
       name: createAlbum.name,
     },
   });
@@ -52,20 +53,24 @@ export async function POST(request: NextRequest, response: NextResponse) {
       data: {
         name: createAlbum.name,
         userId: user?.id,
-        assetId: body.asset.id,
+        ...(body?.asset ? { assetId: body.asset.id } : {}),
       },
     });
 
-    const updatedAsset = await prisma.asset.update({
-      where: {
-        id: body.asset.id,
-      },
-      data: {
-        albumId: album.id,
-      },
-    });
+    if (body.asset) {
+      const updatedAsset = await prisma.asset.update({
+        where: {
+          id: body.asset.id,
+        },
+        data: {
+          albumId: album.id,
+        },
+      });
 
-    return NextResponse.json({ album, updatedAsset }, { status: 200 });
+      return NextResponse.json({ album, updatedAsset }, { status: 200 });
+    }
+
+    return NextResponse.json({ album }, { status: 200 });
   }
 }
 

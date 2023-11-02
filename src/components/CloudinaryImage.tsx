@@ -12,7 +12,6 @@ const CloudinaryImage = (
   props: {
     asset: Asset;
     albums?: Album[];
-    onUnheart?: (unheartedResource: Asset) => void;
   } & Omit<CldImageProps, 'src'>
 ) => {
   const { asset, albums } = props;
@@ -53,7 +52,7 @@ const CloudinaryImage = (
           className="absolute top-2 left-2 hover:text-red-500 cursor-pointer"
         />
       )}
-      <ImageMenu albums={albums} asset={asset} />
+      <ImageMenu albums={albums!} asset={asset} />
     </div>
   );
 };

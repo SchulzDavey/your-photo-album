@@ -1,39 +1,29 @@
-'use client';
-
-import { Album, Asset } from '@prisma/client';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import AlbumSelect from './AlbumSelect';
-import { Button } from './ui/button';
+import { Button } from '@/src/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-} from './ui/dialog';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
+} from '@/src/components/ui/dialog';
+import { Input } from '@/src/components/ui/input';
+import { Label } from '@/src/components/ui/label';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-const AlbumDialog = ({
-  asset,
-  albums,
-  onClose,
+const CreateAlbumDialog = ({
   albumDialog,
+  setAlbumDialog,
 }: {
-  asset: Asset;
-  albums: Album[];
-  onClose: () => void;
   albumDialog: boolean;
+  setAlbumDialog: (value: boolean) => void;
 }) => {
   const router = useRouter();
   const [albumName, setAlbumName] = useState('');
 
-  const createAlbum = async (asset: any, albumName: string) => {
+  const createAlbum = async (albumName: string) => {
     await axios
       .post('/api/album', {
-        asset,
         albumName,
       })
       .then((response: any) => {
@@ -43,17 +33,10 @@ const AlbumDialog = ({
   };
 
   return (
-    <Dialog
-      open={albumDialog}
-      onOpenChange={(newOpenState) => {
-        if (!newOpenState) {
-          onClose();
-        }
-      }}
-    >
+    <Dialog onOpenChange={() => setAlbumDialog(false)} open={albumDialog}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create or Move an Album</DialogTitle>
+          <DialogTitle>Create an Album</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="flex flex-col items-start gap-3">
@@ -71,22 +54,17 @@ const AlbumDialog = ({
           </div>
           <Button
             onClick={() => {
-              createAlbum(asset, albumName);
-              onClose();
+              createAlbum(albumName);
+              setAlbumDialog(false);
             }}
             type="submit"
           >
             Create Album
           </Button>
         </div>
-        {albums && albums.length > 0 && (
-          <DialogFooter>
-            <AlbumSelect onClose={onClose} albums={albums} asset={asset} />
-          </DialogFooter>
-        )}
       </DialogContent>
     </Dialog>
   );
 };
 
-export default AlbumDialog;
+export default CreateAlbumDialog;
