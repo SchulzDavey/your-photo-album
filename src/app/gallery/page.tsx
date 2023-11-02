@@ -15,6 +15,9 @@ const GalleryPage = async ({
     where: {
       userId: session?.user?.id,
     },
+    include: {
+      Tag: true,
+    },
   });
   const albums = await prisma.album.findMany({
     where: {

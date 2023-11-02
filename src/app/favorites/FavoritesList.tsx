@@ -5,12 +5,12 @@ import CloudinaryImage from '../../components/CloudinaryImage';
 import ImageGrid from '@/src/components/ImageGrid';
 import { Asset } from '@prisma/client';
 
-const FavoritesList = ({ initialResources }: { initialResources: Asset[] }) => {
-  const [resources, setResources] = useState(initialResources);
+const FavoritesList = ({ assets }: { assets: Asset[] }) => {
+  const [resources, setResources] = useState(assets);
 
   useEffect(() => {
-    setResources(initialResources);
-  }, [initialResources]);
+    setResources(assets);
+  }, [assets]);
 
   return (
     <ImageGrid

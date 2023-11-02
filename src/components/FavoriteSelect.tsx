@@ -1,31 +1,24 @@
-'use client';
-
-import { Album, Asset, Tag } from '@prisma/client';
+import { Asset, Tag } from '@prisma/client';
 import axios from 'axios';
 import { HeartIcon } from 'lucide-react';
-import { CldImage, CldImageProps } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import ImageMenu from './ImageMenu';
 
-const CloudinaryImage = (
-  props: {
-    asset: Asset;
-    albums?: Album[];
-    onUnheart?: (unheartedResource: Asset) => void;
-  } & Omit<CldImageProps, 'src'>
-) => {
-  const { asset, albums } = props;
-
+const FavoriteSelect = ({
+  asset,
+  isFavorited,
+  setIsFavorited,
+}: {
+  asset: Asset;
+  isFavorited: any;
+  setIsFavorited: any;
+}) => {
   const router = useRouter();
-  const [isFavorited, setIsFavorited] = useState(
-    asset?.Tag.some((tag: Tag) => tag.name === 'favorite')
-  );
 
   const addToFavorites = async (data: any, tag: string) => {
     await axios
       .patch('/api/tag/' + data.id, { tag })
       .then((response) => {
+        console.log(response.data);
         router.refresh();
       })
       .catch((error) => {
@@ -34,8 +27,7 @@ const CloudinaryImage = (
   };
 
   return (
-    <div className="relative">
-      <CldImage {...props} src={asset.id} alt="This is a new" />
+    <>
       {isFavorited ? (
         <HeartIcon
           onClick={() => {
@@ -53,9 +45,8 @@ const CloudinaryImage = (
           className="absolute top-2 left-2 hover:text-red-500 cursor-pointer"
         />
       )}
-      <ImageMenu albums={albums} asset={asset} />
-    </div>
+    </>
   );
 };
 
-export default CloudinaryImage;
+export default FavoriteSelect;

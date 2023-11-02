@@ -1,9 +1,8 @@
 'use client';
 
 import CloudinaryImage from '@/src/components/CloudinaryImage';
-import { UserProps } from '@/src/components/Header';
 import ImageGrid from '@/src/components/ImageGrid';
-import { Album, Asset, User } from '@prisma/client';
+import { Album, Asset } from '@prisma/client';
 
 const AlbumGrid = ({
   assets,
