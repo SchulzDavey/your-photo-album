@@ -10,7 +10,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
     return NextResponse.json({ message: 'No user found' }, { status: 400 });
   }
 
-  const body = await request.json();
+  const { image, params } = await request.json();
 
   const user = await prisma.user.findUnique({
     where: {
@@ -20,10 +20,11 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   const addImage = await prisma.asset.create({
     data: {
-      id: body.info.public_id,
-      url: body.info.url,
-      media_type: body.info.resource_type,
+      id: image.info.public_id,
+      url: image.info.url,
+      media_type: image.info.resource_type,
       userId: user?.id,
+      albumId: params.path,
     },
   });
 

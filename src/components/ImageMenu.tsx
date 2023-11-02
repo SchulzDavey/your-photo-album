@@ -1,5 +1,5 @@
 import { Asset } from '@prisma/client';
-import { FolderPlus, MenuIcon, Pencil } from 'lucide-react';
+import { DeleteIcon, FolderPlus, MenuIcon, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import AlbumDialog from './AlbumDialog';
@@ -10,10 +10,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const ImageMenu = ({ asset }: { asset: Asset }) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [albumDialog, setAlbumDialog] = useState(false);
+
+  const deleteAsset = async (asset: Asset) => {
+    axios
+      .delete('/api/asset/' + asset.id)
+      .then((response) => {
+        router.refresh();
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <>
@@ -44,6 +56,15 @@ const ImageMenu = ({ asset }: { asset: Asset }) => {
                 <Pencil className="w-5 h-5" />
                 <p className="text-md">Edit Image</p>
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <div
+                onClick={() => deleteAsset(asset)}
+                className="flex justify-between"
+              >
+                <DeleteIcon className="w-5 h-5" />
+                <p className="text-md">Delete Image</p>
+              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
