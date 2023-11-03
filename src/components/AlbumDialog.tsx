@@ -15,6 +15,8 @@ import {
 } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import { CreateAlbumProps } from '../app/albums/CreateAlbumDialog';
+import { useForm } from 'react-hook-form';
 
 const AlbumDialog = ({
   asset,
@@ -27,10 +29,15 @@ const AlbumDialog = ({
   onClose: () => void;
   albumDialog: boolean;
 }) => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<CreateAlbumProps>();
   const router = useRouter();
   const [albumName, setAlbumName] = useState('');
 
-  const createAlbum = async (asset: any, albumName: string) => {
+  const createAlbum = async ({ albumName }: CreateAlbumProps) => {
     await axios
       .post('/api/album', {
         asset,
@@ -38,6 +45,7 @@ const AlbumDialog = ({
       })
       .then((response: any) => {
         router.refresh();
+        onClose();
       })
       .catch((error) => console.log(error));
   };
@@ -55,30 +63,23 @@ const AlbumDialog = ({
         <DialogHeader>
           <DialogTitle>Create or Move an Album</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="flex flex-col items-start gap-3">
-            <Label htmlFor="album-name" className="text-right">
-              Album
-            </Label>
-            <Input
-              onChange={(e) => {
-                setAlbumName(e.currentTarget.value);
-              }}
-              id="album-name"
-              defaultValue={albumName}
-              className="col-span-3"
-            />
+        <form onSubmit={handleSubmit(createAlbum)}>
+          <div className="grid gap-4 py-4">
+            <div className="flex flex-col items-start gap-3">
+              <Label htmlFor="album-name" className="text-right">
+                Album
+              </Label>
+              <Input
+                {...register('albumName')}
+                required
+                id="album-name"
+                defaultValue={albumName}
+                className="col-span-3"
+              />
+            </div>
+            <Button type="submit">Create Album</Button>
           </div>
-          <Button
-            onClick={() => {
-              createAlbum(asset, albumName);
-              onClose();
-            }}
-            type="submit"
-          >
-            Create Album
-          </Button>
-        </div>
+        </form>
         {albums && albums.length > 0 && (
           <DialogFooter>
             <AlbumSelect onClose={onClose} albums={albums} asset={asset} />

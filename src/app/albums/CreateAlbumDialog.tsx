@@ -10,6 +10,11 @@ import { Label } from '@/src/components/ui/label';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+export type CreateAlbumProps = {
+  albumName: string;
+};
 
 const CreateAlbumDialog = ({
   albumDialog,
@@ -18,16 +23,22 @@ const CreateAlbumDialog = ({
   albumDialog: boolean;
   setAlbumDialog: (value: boolean) => void;
 }) => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<CreateAlbumProps>();
   const router = useRouter();
   const [albumName, setAlbumName] = useState('');
 
-  const createAlbum = async (albumName: string) => {
+  const createAlbum = async ({ albumName }: CreateAlbumProps) => {
     await axios
       .post('/api/album', {
         albumName,
       })
       .then((response: any) => {
         router.refresh();
+        setAlbumDialog(false);
       })
       .catch((error) => console.log(error));
   };
@@ -38,30 +49,23 @@ const CreateAlbumDialog = ({
         <DialogHeader>
           <DialogTitle>Create an Album</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="flex flex-col items-start gap-3">
-            <Label htmlFor="album-name" className="text-right">
-              Album
-            </Label>
-            <Input
-              onChange={(e) => {
-                setAlbumName(e.currentTarget.value);
-              }}
-              id="album-name"
-              defaultValue={albumName}
-              className="col-span-3"
-            />
+        <form onSubmit={handleSubmit(createAlbum)}>
+          <div className="grid gap-4 py-4">
+            <div className="flex flex-col items-start gap-3">
+              <Label htmlFor="album-name" className="text-right">
+                Album
+              </Label>
+              <Input
+                {...register('albumName')}
+                required
+                id="album-name"
+                defaultValue={albumName}
+                className="col-span-3"
+              />
+            </div>
+            <Button type="submit">Create Album</Button>
           </div>
-          <Button
-            onClick={() => {
-              createAlbum(albumName);
-              setAlbumDialog(false);
-            }}
-            type="submit"
-          >
-            Create Album
-          </Button>
-        </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

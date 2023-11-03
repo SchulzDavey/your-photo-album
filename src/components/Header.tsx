@@ -28,7 +28,13 @@ const Header = ({ user }: { user: UserProps | User }) => {
     <div className="border-b">
       <div className="flex h-16 items-center px-4 container mx-auto">
         <Link href="/">
-          <Image src={logo} width="50" height="100" alt="logo" />
+          <Image
+            src={logo}
+            className="h-auto"
+            width="60"
+            height="60"
+            alt="logo"
+          />
         </Link>
         <div className="ml-auto flex items-center space-x-4">
           <DropdownMenu>
