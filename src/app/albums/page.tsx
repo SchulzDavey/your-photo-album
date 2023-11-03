@@ -2,8 +2,6 @@ import prisma from '@/prisma/client';
 import { getServerSession } from 'next-auth';
 import authOptions from '../api/auth/[...nextauth]/authOptions';
 import AlbumCard from './AlbumCard';
-import { Button } from '@/src/components/ui/button';
-import CreateAlbumDialog from './CreateAlbumDialog';
 import CreateAlbumButton from './CreateAlbumButton';
 
 const AlbumsPage = async () => {
@@ -15,7 +13,7 @@ const AlbumsPage = async () => {
   });
 
   return (
-    <section className="flex flex-col gap-8">
+    <section className="pt-8 flex flex-col gap-8">
       <div className="flex flex-col gap-5 justify-between">
         <h1 className="text-4xl font-bold">Albums</h1>
       </div>
