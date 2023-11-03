@@ -7,6 +7,7 @@ import { CldImage, CldImageProps } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ImageMenu from './ImageMenu';
+import { toast } from 'react-toastify';
 
 const CloudinaryImage = (
   props: {
@@ -29,6 +30,7 @@ const CloudinaryImage = (
       })
       .catch((error) => {
         console.log(error);
+        toast.error('An error has occurred. Try again.');
       });
   };
 
@@ -38,6 +40,7 @@ const CloudinaryImage = (
       {isFavorited ? (
         <HeartIcon
           onClick={() => {
+            toast.error('Removed from favorites..');
             setIsFavorited(false);
             addToFavorites(asset, '');
           }}
@@ -46,6 +49,7 @@ const CloudinaryImage = (
       ) : (
         <HeartIcon
           onClick={() => {
+            toast.success('Added to favorites!');
             setIsFavorited(true);
             addToFavorites(asset, 'favorite');
           }}

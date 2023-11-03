@@ -4,6 +4,7 @@ import { Button } from '@/src/components/ui/button';
 import axios from 'axios';
 import { CldUploadButton } from 'next-cloudinary';
 import { useParams, useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const UploadButton = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ const UploadButton = () => {
               .post('/api/asset', { image, params })
               .then((response) => {
                 router.refresh();
+                toast.success('Asset successfully uploaded!');
               });
           }}
           uploadPreset="v0u9n21m"

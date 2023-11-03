@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export type CreateAlbumProps = {
   albumName: string;
@@ -39,8 +40,12 @@ const CreateAlbumDialog = ({
       .then((response: any) => {
         router.refresh();
         setAlbumDialog(false);
+        toast.success('Album created successfully!');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        toast.error('An error has been occurred. Try again.');
+      });
   };
 
   return (

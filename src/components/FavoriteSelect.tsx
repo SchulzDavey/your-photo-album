@@ -18,7 +18,6 @@ const FavoriteSelect = ({
     await axios
       .patch('/api/tag/' + data.id, { tag })
       .then((response) => {
-        console.log(response.data);
         router.refresh();
       })
       .catch((error) => {

@@ -7,6 +7,7 @@ import SideMenu from '../components/SideMenu';
 import Hydrate from './Hydrate';
 import authOptions from './api/auth/[...nextauth]/authOptions';
 import './globals.css';
+import ToastifyContainer from '../components/ToastifyContainer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,6 +35,7 @@ export default async function RootLayout({
               {session && <SideMenu />}
               {children}
             </div>
+            <ToastifyContainer />
           </AuthProvider>
         </Hydrate>
       </body>

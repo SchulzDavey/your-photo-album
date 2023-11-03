@@ -13,14 +13,22 @@ import { Album } from '@prisma/client';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const AlbumCard = ({ album }: { album: Album }) => {
   const router = useRouter();
 
   const deleteAlbum = async (data: Album) => {
-    await axios.delete('/api/album/' + data.id).then((response) => {
-      router.refresh();
-    });
+    await axios
+      .delete('/api/album/' + data.id)
+      .then((response) => {
+        router.refresh();
+        toast.error('Album removed successfully!');
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error('An error has occurred. Try again.');
+      });
   };
 
   return (

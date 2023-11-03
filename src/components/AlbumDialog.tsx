@@ -17,6 +17,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { CreateAlbumProps } from '../app/albums/CreateAlbumDialog';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 const AlbumDialog = ({
   asset,
@@ -45,9 +46,13 @@ const AlbumDialog = ({
       })
       .then((response: any) => {
         router.refresh();
-        onClose();
+        toast.success('Album created successfully!');
+        // onClose();
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        toast.error('An error has occurred. Try again.');
+      });
   };
 
   return (

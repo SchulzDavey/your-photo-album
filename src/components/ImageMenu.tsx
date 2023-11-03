@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
+import { toast } from 'react-toastify';
 
 const ImageMenu = ({ asset, albums }: { asset: Asset; albums: Album[] }) => {
   const router = useRouter();
@@ -23,8 +24,12 @@ const ImageMenu = ({ asset, albums }: { asset: Asset; albums: Album[] }) => {
       .delete('/api/asset/' + asset.id)
       .then((response) => {
         router.refresh();
+        toast.success('Asset successfully deleted!');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        toast.error('An error has occurred. Try again.');
+      });
   };
 
   return (

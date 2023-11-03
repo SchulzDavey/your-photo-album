@@ -10,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+import ToastifyContainer from './ToastifyContainer';
+import { toast } from 'react-toastify';
 
 const AlbumSelect = ({
   asset,
@@ -30,9 +32,13 @@ const AlbumSelect = ({
       })
       .then((response) => {
         router.refresh();
-        onClose();
+        // onClose();
+        toast.success('Album moved successfully!');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        toast.error('An error has occurred. Try again.');
+      });
   };
 
   const filterAlbums = async () => {
@@ -50,7 +56,7 @@ const AlbumSelect = ({
   return (
     <div className="w-full flex flex-col items-start gap-3">
       <Label htmlFor="album-name" className="text-right">
-        Move to Album {selectedAlbum?.name!}
+        Move to Album
       </Label>
       <Select
         onValueChange={(value) => {
