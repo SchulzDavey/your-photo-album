@@ -21,6 +21,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
   const addImage = await prisma.asset.create({
     data: {
       id: image.info.public_id,
+      name: image.info.original_filename,
+      width: image.info.width,
+      height: image.info.height,
       url: image.info.url,
       media_type: image.info.resource_type,
       userId: user?.id,

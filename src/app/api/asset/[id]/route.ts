@@ -32,16 +32,29 @@ export async function PATCH(
     return NextResponse.json({ message: 'User not found' }, { status: 400 });
   }
 
-  const { albumId } = await response.json();
+  const { image, albumId } = await response.json();
 
-  const updatedAsset = await prisma.asset.update({
-    where: {
-      id: params.id,
-    },
-    data: {
-      albumId,
-    },
-  });
+  if (!albumId) {
+    const updatedAssetWithFilter = await prisma.asset.update({
+      where: {
+        id: params.id,
+      },
+      data: {
+        url: image.url,
+      },
+    });
 
-  return NextResponse.json(updatedAsset, { status: 200 });
+    return NextResponse.json(updatedAssetWithFilter, { status: 200 });
+  } else {
+    const updatedAsset = await prisma.asset.update({
+      where: {
+        id: params.id,
+      },
+      data: {
+        albumId,
+      },
+    });
+
+    return NextResponse.json(updatedAsset, { status: 200 });
+  }
 }

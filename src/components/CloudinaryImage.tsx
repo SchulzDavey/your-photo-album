@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ImageMenu from './ImageMenu';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 
 const CloudinaryImage = (
   props: {
@@ -36,7 +37,7 @@ const CloudinaryImage = (
 
   return (
     <div className="relative">
-      <CldImage {...props} src={asset.id} alt="This is a new" />
+      <Image {...props} src={asset.url!} alt="This is a new" />
       {isFavorited ? (
         <HeartIcon
           onClick={() => {
