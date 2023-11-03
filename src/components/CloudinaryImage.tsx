@@ -3,12 +3,12 @@
 import { Album, Asset, Tag } from '@prisma/client';
 import axios from 'axios';
 import { HeartIcon } from 'lucide-react';
-import { CldImage, CldImageProps } from 'next-cloudinary';
+import { CldImageProps } from 'next-cloudinary';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import ImageMenu from './ImageMenu';
 import { toast } from 'react-toastify';
-import Image from 'next/image';
+import ImageMenu from './ImageMenu';
 
 const CloudinaryImage = (
   props: {
@@ -17,7 +17,6 @@ const CloudinaryImage = (
   } & Omit<CldImageProps, 'src'>
 ) => {
   const { asset, albums } = props;
-
   const router = useRouter();
   const [isFavorited, setIsFavorited] = useState(
     asset?.Tag.some((tag: Tag) => tag.name === 'favorite')

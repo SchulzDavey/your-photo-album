@@ -3,9 +3,15 @@
 import { useEffect, useState } from 'react';
 import CloudinaryImage from '../../components/CloudinaryImage';
 import ImageGrid from '@/src/components/ImageGrid';
-import { Asset } from '@prisma/client';
+import { Album, Asset } from '@prisma/client';
 
-const FavoritesList = ({ assets }: { assets: Asset[] }) => {
+const FavoritesList = ({
+  assets,
+  albums,
+}: {
+  assets: Asset[];
+  albums: Album[];
+}) => {
   const [resources, setResources] = useState(assets);
 
   useEffect(() => {
@@ -20,6 +26,7 @@ const FavoritesList = ({ assets }: { assets: Asset[] }) => {
           <CloudinaryImage
             key={asset.id}
             asset={asset}
+            albums={albums}
             alt="an image of something"
             width="400"
             height="300"

@@ -11,6 +11,7 @@ import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -28,6 +29,7 @@ const CreateAlbumDialog = () => {
   const dispatch = useDispatch<AppDispatch>();
   const activeLink = useLinkSelector((state) => state.linkReducer.activeLink);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const createAlbum = async ({ albumName }: CreateAlbumProps) => {
     await axios
@@ -38,6 +40,7 @@ const CreateAlbumDialog = () => {
         router.refresh();
         dispatch(setActiveLink(''));
         toast.success('Album created successfully!');
+        setLoading(true);
       })
       .catch((error) => {
         console.log(error);
@@ -47,7 +50,10 @@ const CreateAlbumDialog = () => {
 
   return (
     <Dialog
-      onOpenChange={() => dispatch(setActiveLink(''))}
+      onOpenChange={() => {
+        setLoading(false);
+        dispatch(setActiveLink(''));
+      }}
       open={activeLink === 'new-album'}
     >
       <DialogContent>
@@ -67,7 +73,9 @@ const CreateAlbumDialog = () => {
                 className="col-span-3"
               />
             </div>
-            <Button type="submit">Create Album</Button>
+            <Button disabled={loading} type="submit">
+              {!loading ? 'Create Album' : 'Loading...'}
+            </Button>
           </div>
         </form>
       </DialogContent>

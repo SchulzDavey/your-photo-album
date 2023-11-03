@@ -47,7 +47,7 @@ const AlbumDialog = ({
       .then((response: any) => {
         router.refresh();
         toast.success('Album created successfully!');
-        // onClose();
+        onClose();
       })
       .catch((error) => {
         console.log(error);

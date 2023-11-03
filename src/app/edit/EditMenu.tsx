@@ -35,6 +35,14 @@ const EditMenu = ({
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {
+              addFilterToImage('none');
+            }}
+          >
+            None
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
               addFilterToImage('blur');
             }}
           >

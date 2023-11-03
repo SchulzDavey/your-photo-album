@@ -24,6 +24,14 @@ const Editor = ({ asset, publicId }: EditorProps) => {
     let editedImage;
 
     switch (filter) {
+      case 'none':
+        editedImage = getCldImageUrl({
+          src: asset.url!,
+          height: asset.height!,
+          width: asset.width!,
+        });
+        break;
+
       case 'blur':
         editedImage = getCldImageUrl({
           src: asset.url!,
@@ -65,7 +73,7 @@ const Editor = ({ asset, publicId }: EditorProps) => {
       })
       .then((response) => {
         router.refresh();
-        toast.success('Asset successfully uploaded!');
+        toast.success('Asset successfully edited!');
       })
       .catch((error) => console.log(error));
   };

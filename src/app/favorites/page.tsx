@@ -19,6 +19,11 @@ const FavoritesPage = async () => {
       Tag: true,
     },
   });
+  const albums = await prisma.album.findMany({
+    where: {
+      userId: session?.user?.id,
+    },
+  });
 
   return (
     <section className="py-8 flex flex-col gap-8">
@@ -26,7 +31,7 @@ const FavoritesPage = async () => {
         <h1 className="text-4xl font-bold">Favorites Images</h1>
         <UploadButton />
       </div>
-      <FavoritesList assets={assets} />
+      <FavoritesList albums={albums} assets={assets} />
     </section>
   );
 };
