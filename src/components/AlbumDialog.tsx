@@ -15,7 +15,7 @@ import {
 } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { CreateAlbumProps } from '../app/albums/CreateAlbumDialog';
+import { CreateAlbumProps } from './CreateAlbumDialog';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 

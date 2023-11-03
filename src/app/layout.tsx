@@ -8,6 +8,8 @@ import Hydrate from './Hydrate';
 import authOptions from './api/auth/[...nextauth]/authOptions';
 import './globals.css';
 import ToastifyContainer from '../components/ToastifyContainer';
+import ReduxProvider from '@/redux/provider';
+import ActionContainer from '../components/ActionContainer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,14 +31,17 @@ export default async function RootLayout({
     <html lang="en" className="dark">
       <body className={inter.className}>
         <Hydrate>
-          <AuthProvider>
-            {session && <Header user={session?.user} />}
-            <div className="flex container">
-              {session && <SideMenu />}
-              {children}
-            </div>
-            <ToastifyContainer />
-          </AuthProvider>
+          <ReduxProvider>
+            <AuthProvider>
+              {session && <Header user={session?.user} />}
+              <div className="flex container">
+                {session && <SideMenu />}
+                {children}
+              </div>
+              <ActionContainer />
+              <ToastifyContainer />
+            </AuthProvider>
+          </ReduxProvider>
         </Hydrate>
       </body>
     </html>

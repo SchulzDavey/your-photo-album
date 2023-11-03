@@ -2,7 +2,8 @@ import prisma from '@/prisma/client';
 import { getServerSession } from 'next-auth';
 import authOptions from '../api/auth/[...nextauth]/authOptions';
 import AlbumCard from './AlbumCard';
-import CreateAlbumButton from './CreateAlbumButton';
+import { Button } from '@/src/components/ui/button';
+import CreateAlbumButton from '@/src/components/CreateAlbumButton';
 
 const AlbumsPage = async () => {
   const session = await getServerSession(authOptions);

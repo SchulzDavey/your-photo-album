@@ -1,4 +1,4 @@
-import { Asset, Tag } from '@prisma/client';
+import { Asset } from '@prisma/client';
 import axios from 'axios';
 import { HeartIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';

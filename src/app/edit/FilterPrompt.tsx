@@ -45,7 +45,6 @@ const FilterPrompt = ({
       }}
       open={openPrompt}
     >
-      <DialogTrigger>Filter</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <form onSubmit={handleSubmit(AddFilter)}>

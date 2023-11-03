@@ -1,3 +1,5 @@
+import { setActiveLink } from '@/redux/features/link-slice';
+import { AppDispatch, useLinkSelector } from '@/redux/store';
 import { Button } from '@/src/components/ui/button';
 import {
   Dialog,
@@ -9,28 +11,23 @@ import { Input } from '@/src/components/ui/input';
 import { Label } from '@/src/components/ui/label';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 export type CreateAlbumProps = {
   albumName: string;
 };
 
-const CreateAlbumDialog = ({
-  albumDialog,
-  setAlbumDialog,
-}: {
-  albumDialog: boolean;
-  setAlbumDialog: (value: boolean) => void;
-}) => {
+const CreateAlbumDialog = () => {
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<CreateAlbumProps>();
+  const dispatch = useDispatch<AppDispatch>();
+  const activeLink = useLinkSelector((state) => state.linkReducer.activeLink);
   const router = useRouter();
-  const [albumName, setAlbumName] = useState('');
 
   const createAlbum = async ({ albumName }: CreateAlbumProps) => {
     await axios
@@ -39,17 +36,20 @@ const CreateAlbumDialog = ({
       })
       .then((response: any) => {
         router.refresh();
-        setAlbumDialog(false);
+        dispatch(setActiveLink(''));
         toast.success('Album created successfully!');
       })
       .catch((error) => {
         console.log(error);
-        toast.error('An error has been occurred. Try again.');
+        toast.error('An error has been occurred. Try');
       });
   };
 
   return (
-    <Dialog onOpenChange={() => setAlbumDialog(false)} open={albumDialog}>
+    <Dialog
+      onOpenChange={() => dispatch(setActiveLink(''))}
+      open={activeLink === 'new-album'}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create an Album</DialogTitle>
@@ -64,7 +64,6 @@ const CreateAlbumDialog = ({
                 {...register('albumName')}
                 required
                 id="album-name"
-                defaultValue={albumName}
                 className="col-span-3"
               />
             </div>
