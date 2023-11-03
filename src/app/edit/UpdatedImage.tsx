@@ -12,14 +12,7 @@ const UpdatedImage = ({
 }) => {
   if (!updatedImage) return;
 
-  return (
-    <Image
-      src={updatedImage}
-      alt="joehoe"
-      width={asset.width!}
-      height={asset.height!}
-    />
-  );
+  return <Image src={updatedImage} alt="joehoe" width={350} height={350} />;
 };
 
 export default UpdatedImage;

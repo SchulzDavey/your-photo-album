@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/src/components/ui/button';
-import { Asset } from '@prisma/client';
 import axios from 'axios';
 import { getCldImageUrl } from 'next-cloudinary';
 import Image from 'next/image';
@@ -82,8 +81,8 @@ const Editor = ({ asset, publicId }: EditorProps) => {
       </div>
       <div className="grid grid-cols-2 gap-4">
         <Image
-          width="800"
-          height="800"
+          width={350}
+          height={350}
           src={asset.url!}
           alt="This is a cool image"
         />

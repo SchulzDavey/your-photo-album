@@ -31,7 +31,7 @@ const GalleryPage = async ({
   });
 
   return (
-    <section className="pt-8 flex flex-col gap-8">
+    <section className="py-8 flex flex-col gap-8">
       <div className="flex justify-between">
         <h1 className="text-4xl font-bold">Album {album?.name}</h1>
         <UploadButton />

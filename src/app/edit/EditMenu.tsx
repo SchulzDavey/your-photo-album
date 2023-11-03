@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/src/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +8,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/src/components/ui/dropdown-menu';
-import { useState } from 'react';
 
 const EditMenu = ({
   filter,
@@ -21,27 +19,19 @@ const EditMenu = ({
   ) => void;
   addFilterToImage: (filter: string) => void;
 }) => {
-  const [openPrompt, setOpenPrompt] = useState(false);
-
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Button>Add Filter</Button>
+          <DropdownMenuLabel>Add Filter</DropdownMenuLabel>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>
-            {filter === undefined ? 'None' : filter}
+            {filter === undefined
+              ? 'None'
+              : filter.charAt(0).toUpperCase() + filter.slice(1)}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => {
-              setOpenPrompt(true);
-            }}
-            className="cursor-pointer"
-          >
-            Generative Fill
-          </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {
