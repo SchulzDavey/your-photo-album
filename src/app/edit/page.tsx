@@ -1,18 +1,26 @@
 'use client';
 
 import { Button } from '@/src/components/ui/button';
-import { Input } from '@/src/components/ui/input';
-import { Label } from '@radix-ui/react-label';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/src/components/ui/dropdown-menu';
 import { CldImage } from 'next-cloudinary';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import FilterPrompt from './FilterPrompt';
 
 const EditPage = ({
   searchParams: { publicId },
 }: {
   searchParams: { publicId: string };
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [openPrompt, setOpenPrompt] = useState(false);
   const [prompt, setPrompt] = useState('');
-  const [pendingPrompt, setPendingPrompt] = useState('');
   const [filter, setFilter] = useState<
     undefined | 'generative-fill' | 'blur' | 'grayscale' | 'pixelate'
   >();
@@ -23,36 +31,50 @@ const EditPage = ({
         <h1 className="text-4xl font-bold">Edit {publicId}</h1>
       </div>
       <div className="flex flex-row gap-4">
-        <Button onClick={() => setFilter(undefined)} variant="secondary">
-          Clear All
-        </Button>
-        <div className="flex flex-col gap-4">
-          <Button
-            onClick={() => {
-              setPrompt(pendingPrompt);
-              setFilter('generative-fill');
-            }}
-            variant="secondary"
-          >
-            Apply Generative Fill
-          </Button>
-          <Label htmlFor="prompt">Prompt</Label>
-          <Input
-            placeholder="Prompt..."
-            id="prompt"
-            value={pendingPrompt}
-            onChange={(e) => setPendingPrompt(e.currentTarget.value)}
-          />
-        </div>
-        <Button onClick={() => setFilter('blur')} variant="secondary">
-          Apply Blur
-        </Button>
-        <Button onClick={() => setFilter('grayscale')} variant="secondary">
-          Apply Grayscale
-        </Button>
-        <Button onClick={() => setFilter('pixelate')} variant="secondary">
-          Apply Pixelate
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button>Add Filter</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>
+              {filter === undefined ? 'None' : filter}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                setOpenPrompt(true);
+              }}
+              className="cursor-pointer"
+            >
+              Generative Fill
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => setFilter('blur')}
+            >
+              Blur
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => setFilter('grayscale')}
+            >
+              Grayscale
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => setFilter('pixelate')}
+            >
+              Pixelate
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <FilterPrompt
+          setFilter={setFilter}
+          setOpenPrompt={setOpenPrompt}
+          setPrompt={setPrompt}
+          openPrompt={openPrompt}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -62,48 +84,51 @@ const EditPage = ({
           src={publicId}
           alt="This is a cool image"
         />
+        {filter && (
+          <>
+            {filter === 'generative-fill' && (
+              <CldImage
+                width="800"
+                height="800"
+                src={publicId}
+                alt="This is a cool image"
+                fillBackground={{
+                  prompt: prompt,
+                }}
+                crop="pad"
+              />
+            )}
 
-        {filter === 'generative-fill' && (
-          <CldImage
-            width="800"
-            height="800"
-            src={publicId}
-            alt="This is a cool image"
-            fillBackground={{
-              prompt: prompt,
-            }}
-            crop="pad"
-          />
-        )}
+            {filter === 'blur' && (
+              <CldImage
+                width="800"
+                height="800"
+                src={publicId}
+                alt="This is a cool image"
+                blur="800"
+              />
+            )}
 
-        {filter === 'blur' && (
-          <CldImage
-            width="800"
-            height="800"
-            src={publicId}
-            alt="This is a cool image"
-            blur="800"
-          />
-        )}
+            {filter === 'grayscale' && (
+              <CldImage
+                width="800"
+                height="800"
+                src={publicId}
+                alt="This is a cool image"
+                grayscale
+              />
+            )}
 
-        {filter === 'grayscale' && (
-          <CldImage
-            width="800"
-            height="800"
-            src={publicId}
-            alt="This is a cool image"
-            grayscale
-          />
-        )}
-
-        {filter === 'pixelate' && (
-          <CldImage
-            width="800"
-            height="800"
-            src={publicId}
-            alt="This is a cool image"
-            pixelate
-          />
+            {filter === 'pixelate' && (
+              <CldImage
+                width="800"
+                height="800"
+                src={publicId}
+                alt="This is a cool image"
+                pixelate
+              />
+            )}
+          </>
         )}
       </div>
     </section>
