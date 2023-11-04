@@ -38,7 +38,7 @@ export default async function RootLayout({
                 {session && <SideMenu />}
                 {children}
               </div>
-              <ActionContainer />
+              <ActionContainer user={session?.user} />
               <ToastifyContainer />
             </AuthProvider>
           </ReduxProvider>
