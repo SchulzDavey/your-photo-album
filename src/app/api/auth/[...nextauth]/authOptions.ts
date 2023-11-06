@@ -47,6 +47,7 @@ const authOptions: NextAuthOptions = {
     async jwt({ token, account, user, trigger, session }) {
       if (trigger === 'update' && session.userData.name) {
         token.name = session.userData.name;
+        token.picture = session.userData.picture;
       }
 
       if (account) {

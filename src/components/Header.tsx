@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../public/images/logo.png';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +27,10 @@ export type UserProps =
   | undefined;
 
 const Header = ({ user }: { user: UserProps | User }) => {
+  const { data: session } = useSession();
   const dispatch = useDispatch<AppDispatch>();
+
+  console.log(session);
 
   return (
     <div className="border-b">

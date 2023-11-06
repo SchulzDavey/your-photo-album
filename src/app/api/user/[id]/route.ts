@@ -3,6 +3,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '../../auth/[...nextauth]/authOptions';
 import prisma from '@/prisma/client';
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -16,21 +22,7 @@ export async function PATCH(
     );
   }
 
-  if (session?.user?.email !== params.id) {
-    return NextResponse.json(
-      { message: 'Unauthorized action' },
-      { status: 403 }
-    );
-  }
-
   const { userData } = await request.json();
-
-  if (!userData || !userData.name) {
-    return NextResponse.json(
-      { message: 'Invalid input data' },
-      { status: 400 }
-    );
-  }
 
   try {
     const updatedUser = await prisma.user.update({
@@ -38,17 +30,10 @@ export async function PATCH(
         email: params.id,
       },
       data: {
-        name: userData.name,
+        name: userData?.name,
+        image: userData?.picture,
       },
     });
-
-    const updatedSession = {
-      ...session,
-      user: {
-        ...session.user,
-        name: userData.name,
-      },
-    };
 
     return NextResponse.json({ updatedUser }, { status: 200 });
   } catch (error) {
