@@ -4,6 +4,7 @@ import { DeleteIcon, FolderPlus, MenuIcon, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import AlbumDialog from './AlbumDialog';
 import { Button } from './ui/button';
 import {
@@ -12,7 +13,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { toast } from 'react-toastify';
 
 const ImageMenu = ({ asset, albums }: { asset: Asset; albums: Album[] }) => {
   const router = useRouter();

@@ -1,11 +1,14 @@
 'use client';
 
+import { setActiveLink } from '@/redux/features/link-slice';
+import { AppDispatch } from '@/redux/store';
 import { User } from '@prisma/client';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
 import logo from '../../public/images/logo.png';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { signOut, useSession } from 'next-auth/react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +17,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { setActiveLink } from '@/redux/features/link-slice';
 
 export type UserProps =
   | {
@@ -29,8 +29,6 @@ export type UserProps =
 const Header = ({ user }: { user: UserProps | User }) => {
   const { data: session } = useSession();
   const dispatch = useDispatch<AppDispatch>();
-
-  console.log(session);
 
   return (
     <div className="border-b">
@@ -48,7 +46,7 @@ const Header = ({ user }: { user: UserProps | User }) => {
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar>
-                <AvatarImage src={user?.image!} />
+                <AvatarImage className="object-cover" src={user?.image!} />
                 <AvatarFallback>
                   {user?.name?.slice(0, 1).toUpperCase()}
                 </AvatarFallback>

@@ -2,9 +2,12 @@ import { setActiveLink } from '@/redux/features/link-slice';
 import { AppDispatch, useLinkSelector } from '@/redux/store';
 import { User } from '@prisma/client';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Controller, useForm } from 'react-hook-form';
+import { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { UserProps } from './Header';
 import { Button } from './ui/button';
 import {
@@ -17,21 +20,16 @@ import {
 } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { useSession } from 'next-auth/react';
-import { toast } from 'react-toastify';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import cloudinary from 'cloudinary';
-import { useState } from 'react';
-import { Cloudinary } from '@cloudinary/url-gen';
 
 const PersonalInfoDialog = ({ user }: { user: User | UserProps }) => {
   const { data, update } = useSession();
 
   const router = useRouter();
+  const fileInputRef = useRef(null);
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm();
   const dispatch = useDispatch<AppDispatch>();
@@ -79,6 +77,13 @@ const PersonalInfoDialog = ({ user }: { user: User | UserProps }) => {
       .catch((error) => console.error(error));
   };
 
+  const openFileUpload = () => {
+    if (fileInputRef.current) {
+      // @ts-ignore
+      fileInputRef.current?.click();
+    }
+  };
+
   return (
     <Dialog
       onOpenChange={() => dispatch(setActiveLink(''))}
@@ -93,22 +98,30 @@ const PersonalInfoDialog = ({ user }: { user: User | UserProps }) => {
         </DialogHeader>
         <form onSubmit={handleSubmit(updatePersonalInfo)}>
           <div className="grid gap-4 py-4">
-            <div>
-              {/* <Avatar>
-                <AvatarImage src={user?.image!} />
+            <div onClick={openFileUpload}>
+              <Avatar>
+                <AvatarImage
+                  className="object-cover"
+                  src={
+                    profilePicture
+                      ? URL.createObjectURL(profilePicture)
+                      : user?.image!
+                  }
+                />
                 <AvatarFallback>
                   {user?.name?.slice(0, 1).toUpperCase()}
                 </AvatarFallback>
-              </Avatar> */}
+              </Avatar>
               <input
                 type="file"
-                name="file"
+                style={{ display: 'none' }}
+                ref={fileInputRef}
                 onChange={(e) => {
-                  setProfilePicture(e.target.files?.[0]);
+                  setProfilePicture(e.target.files![0]);
                 }}
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
+            <div className="flex flex-col items-start gap-3">
               <Label htmlFor="name" className="text-right">
                 Name
               </Label>

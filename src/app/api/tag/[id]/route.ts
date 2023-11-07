@@ -1,8 +1,8 @@
+import prisma from '@/prisma/client';
+import cloudinary from 'cloudinary';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '../../auth/[...nextauth]/authOptions';
-import prisma from '@/prisma/client';
-import cloudinary from 'cloudinary';
 
 export async function PATCH(
   request: NextRequest,

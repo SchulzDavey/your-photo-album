@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import authOptions from '../api/auth/[...nextauth]/authOptions';
 import GalleryGrid from './GalleryGrid';
 import UploadButton from './UploadButton';
+import { User } from '@prisma/client';
 
 const GalleryPage = async ({
   searchParams: { search },
@@ -13,7 +14,7 @@ const GalleryPage = async ({
   const session = await getServerSession(authOptions);
   const results = await prisma.asset.findMany({
     where: {
-      userId: session?.user?.id,
+      userId: (session?.user as User)?.id,
       ...(search && search !== ''
         ? {
             Tag: {
@@ -28,7 +29,7 @@ const GalleryPage = async ({
   });
   const albums = await prisma.album.findMany({
     where: {
-      userId: session?.user?.id,
+      userId: (session?.user as User)?.id,
     },
   });
 

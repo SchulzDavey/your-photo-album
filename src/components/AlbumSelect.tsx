@@ -2,6 +2,7 @@ import { Album, Asset } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { Label } from './ui/label';
 import {
   Select,
@@ -10,8 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import ToastifyContainer from './ToastifyContainer';
-import { toast } from 'react-toastify';
 
 const AlbumSelect = ({
   asset,

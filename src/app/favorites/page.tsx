@@ -1,4 +1,5 @@
 import prisma from '@/prisma/client';
+import { User } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import authOptions from '../api/auth/[...nextauth]/authOptions';
 import UploadButton from '../gallery/UploadButton';
@@ -8,7 +9,7 @@ const FavoritesPage = async () => {
   const session = await getServerSession(authOptions);
   const assets = await prisma.asset.findMany({
     where: {
-      userId: session?.user?.id,
+      userId: (session?.user as User)?.id,
       Tag: {
         some: {
           name: 'favorite',
@@ -21,7 +22,7 @@ const FavoritesPage = async () => {
   });
   const albums = await prisma.album.findMany({
     where: {
-      userId: session?.user?.id,
+      userId: (session?.user as User)?.id,
     },
   });
 

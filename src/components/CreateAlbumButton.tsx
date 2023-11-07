@@ -2,7 +2,6 @@
 
 import { setActiveLink } from '@/redux/features/link-slice';
 import { AppDispatch } from '@/redux/store';
-import React from 'react';
 import { useDispatch } from 'react-redux';
 
 const CreateAlbumButton = () => {

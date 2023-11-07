@@ -1,15 +1,15 @@
+import ReduxProvider from '@/redux/provider';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
+import ActionContainer from '../components/ActionContainer';
 import AuthProvider from '../components/AuthProvider';
 import Header from '../components/Header';
 import SideMenu from '../components/SideMenu';
+import ToastifyContainer from '../components/ToastifyContainer';
 import Hydrate from './Hydrate';
 import authOptions from './api/auth/[...nextauth]/authOptions';
 import './globals.css';
-import ToastifyContainer from '../components/ToastifyContainer';
-import ReduxProvider from '@/redux/provider';
-import ActionContainer from '../components/ActionContainer';
 
 const inter = Inter({ subsets: ['latin'] });
 

@@ -1,15 +1,15 @@
 import prisma from '@/prisma/client';
+import CreateAlbumButton from '@/src/components/CreateAlbumButton';
 import { getServerSession } from 'next-auth';
 import authOptions from '../api/auth/[...nextauth]/authOptions';
 import AlbumCard from './AlbumCard';
-import { Button } from '@/src/components/ui/button';
-import CreateAlbumButton from '@/src/components/CreateAlbumButton';
+import { User } from '@prisma/client';
 
 const AlbumsPage = async () => {
   const session = await getServerSession(authOptions);
   const albums = await prisma.album.findMany({
     where: {
-      userId: session?.user?.id,
+      userId: (session?.user as User)?.id,
     },
   });
 

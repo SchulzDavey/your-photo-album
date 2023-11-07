@@ -19,7 +19,6 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<RegisterProps>();
   const [error, setError] = useState('');

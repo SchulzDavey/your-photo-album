@@ -1,11 +1,11 @@
 'use client';
 
-import { Input } from './ui/input';
-import { useEffect, useState } from 'react';
-import { Label } from './ui/label';
-import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
 
 type SearchFormInput = {
   search: string;

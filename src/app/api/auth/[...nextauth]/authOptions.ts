@@ -1,8 +1,9 @@
 import prisma from '@/prisma/client';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { User } from '@prisma/client';
+import bcrypt from 'bcrypt';
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import bcrypt from 'bcrypt';
 
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -24,7 +25,9 @@ const authOptions: NextAuthOptions = {
           throw new Error('Please provide both email and password');
         }
 
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = (await prisma.user.findUnique({
+          where: { email },
+        })) as User;
 
         if (!user || !user.password) {
           throw new Error('User not found');
@@ -58,8 +61,7 @@ const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user) {
-        // @ts-ignore
-        session.user.id = token.sub;
+        (session.user as User).id = token.sub as string;
       }
 
       return session;

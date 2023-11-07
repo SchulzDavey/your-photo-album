@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import CloudinaryImage from '../../components/CloudinaryImage';
 import ImageGrid from '@/src/components/ImageGrid';
 import { Album, Asset } from '@prisma/client';
+import { useEffect, useState } from 'react';
+import CloudinaryImage from '../../components/CloudinaryImage';
 
 const FavoritesList = ({
   assets,

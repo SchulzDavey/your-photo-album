@@ -1,9 +1,10 @@
+import prisma from '@/prisma/client';
+import { User } from '@prisma/client';
+import cloudinary from 'cloudinary';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
-import authOptions from '../auth/[...nextauth]/authOptions';
 import { albumSchema } from '../../schemas/albumSchema';
-import prisma from '@/prisma/client';
-import cloudinary from 'cloudinary';
+import authOptions from '../auth/[...nextauth]/authOptions';
 
 export async function POST(request: NextRequest, response: NextResponse) {
   const session = await getServerSession(authOptions);
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   const user = await prisma.user.findUnique({
     where: {
-      id: session?.user?.id,
+      id: (session?.user as User)?.id,
     },
   });
 
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   const existingAlbum = await prisma.album.findMany({
     where: {
-      userId: session?.user?.id,
+      userId: user?.id,
       name: createAlbum.name,
     },
   });
@@ -81,11 +82,9 @@ export async function GET(request: NextRequest, response: NextResponse) {
     return NextResponse.json({ message: 'User not found' }, { status: 400 });
   }
 
-  const body = await request.json();
-
   const albums = await prisma.album.findMany({
     where: {
-      userId: session?.user?.id,
+      userId: (session?.user as User)?.id,
     },
   });
 

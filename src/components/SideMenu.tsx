@@ -6,12 +6,13 @@ import authOptions from '../app/api/auth/[...nextauth]/authOptions';
 import AlbumDropdown from './AlbumDropdown';
 import { Button } from './ui/button';
 import { DropdownMenu, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { User } from '@prisma/client';
 
 const SideMenu = async () => {
   const session = await getServerSession(authOptions);
   const albums = await prisma.album.findMany({
     where: {
-      userId: session?.user?.id,
+      userId: (session?.user as User)?.id,
     },
   });
 

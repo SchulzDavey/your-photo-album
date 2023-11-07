@@ -17,7 +17,6 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<LoginProps>();
   const [error, setError] = useState('');

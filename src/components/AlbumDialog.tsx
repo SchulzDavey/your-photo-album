@@ -4,7 +4,10 @@ import { Album, Asset } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import AlbumSelect from './AlbumSelect';
+import { CreateAlbumProps } from './CreateAlbumDialog';
 import { Button } from './ui/button';
 import {
   Dialog,
@@ -15,9 +18,6 @@ import {
 } from './ui/dialog';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
-import { CreateAlbumProps } from './CreateAlbumDialog';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 const AlbumDialog = ({
   asset,
