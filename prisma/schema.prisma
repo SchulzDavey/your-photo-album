@@ -38,9 +38,9 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   password      String?
@@ -48,6 +48,7 @@ model User {
   sessions      Session[]
   Image         Asset[]
   Album         Album[]
+  Follower      Follower[]
 }
 
 model Asset {
@@ -81,6 +82,14 @@ model Tag {
   name    String?
   assetId String?
   asset   Asset?  @relation(fields: [assetId], references: [id])
+}
+
+model Follower {
+  id             String   @id @default(cuid())
+  followed       Boolean? @default(false)
+  followedUserId String?
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {

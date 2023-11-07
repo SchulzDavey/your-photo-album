@@ -63,7 +63,12 @@ const Header = ({ user }: { user: UserProps | User }) => {
                 className="cursor-pointer"
                 onClick={() => dispatch(setActiveLink('personal-info'))}
               >
-                Bekijk informatie
+                Bewerk informatie
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href={`/profile/${(user as User)?.id}`}>
+                  Bekijk profiel
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => signOut()}>
                 Logout

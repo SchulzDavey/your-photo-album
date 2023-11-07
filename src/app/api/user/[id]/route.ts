@@ -3,12 +3,6 @@ import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import authOptions from '../../auth/[...nextauth]/authOptions';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
