@@ -19,33 +19,25 @@ export async function POST(request: NextRequest, response: NextResponse) {
     },
   });
 
-  const addImage = await prisma.asset.create({
-    data: {
-      id: image.info.public_id,
-      name: image.info.original_filename,
-      width: image.info.width,
-      height: image.info.height,
-      url: image.info.url,
-      media_type: image.info.resource_type,
-      userId: user?.id,
-      albumId: params.path,
-    },
-  });
+  const imageTags = [...(image.info.tags || [])];
 
-  if (image.info.tags.length > 0) {
-    for (const tag of image.info.tags) {
-      await prisma.tag.create({
-        data: {
-          name: tag,
-          asset: {
-            connect: {
-              id: image.info.public_id,
-            },
-          },
-        },
-      });
-    }
+  try {
+    const addImage = await prisma.asset.create({
+      data: {
+        name: image.info.original_filename,
+        width: image.info.width,
+        height: image.info.height,
+        url: image.info.url,
+        media_type: image.info.resource_type,
+        userId: user?.id,
+        albumId: params.path,
+        tags: imageTags,
+      },
+    });
+
+    return NextResponse.json({ addImage }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    NextResponse.json({ message: 'An error has occured' + error });
   }
-
-  return NextResponse.json({ addImage }, { status: 200 });
 }

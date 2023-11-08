@@ -13,13 +13,18 @@ export async function DELETE(
     return NextResponse.json({ message: 'User not found' }, { status: 400 });
   }
 
-  await prisma.asset.delete({
-    where: {
-      id: params.id,
-    },
-  });
+  try {
+    await prisma.asset.delete({
+      where: {
+        id: params.id,
+      },
+    });
 
-  return NextResponse.json({}, { status: 200 });
+    return NextResponse.json({}, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    NextResponse.json({ message: 'An error has occured' + error });
+  }
 }
 
 export async function PATCH(
@@ -32,9 +37,9 @@ export async function PATCH(
     return NextResponse.json({ message: 'User not found' }, { status: 400 });
   }
 
-  const { image, albumId } = await response.json();
+  const { image } = await response.json();
 
-  if (!albumId) {
+  try {
     const updatedAssetWithFilter = await prisma.asset.update({
       where: {
         id: params.id,
@@ -45,16 +50,8 @@ export async function PATCH(
     });
 
     return NextResponse.json(updatedAssetWithFilter, { status: 200 });
-  } else {
-    const updatedAsset = await prisma.asset.update({
-      where: {
-        id: params.id,
-      },
-      data: {
-        albumId,
-      },
-    });
-
-    return NextResponse.json(updatedAsset, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    NextResponse.json({ message: 'An error has occured' + error });
   }
 }

@@ -95,7 +95,7 @@ const Editor = ({ asset, publicId }: EditorProps) => {
           alt="This is a cool image"
         />
         <div className="flex flex-col gap-3">
-          <UpdatedImage asset={asset} updatedImage={updatedImage} />
+          <UpdatedImage updatedImage={updatedImage} />
           {filter !== undefined && (
             <Button onClick={() => uploadImage(updatedImage)}>Bewerken</Button>
           )}

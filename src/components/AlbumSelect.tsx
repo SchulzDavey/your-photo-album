@@ -26,7 +26,7 @@ const AlbumSelect = ({
 
   const moveAssetToAlbum = async (asset: any, albumId: string) => {
     await axios
-      .patch('/api/asset/' + asset.id, {
+      .patch('/api/album/' + asset.id, {
         albumId,
       })
       .then((response) => {

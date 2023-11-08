@@ -11,18 +11,6 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
     where: {
       id: (session?.user as User)?.id,
     },
-    include: {
-      Follower: {
-        where: {
-          userId: {
-            not: params.id,
-          },
-        },
-        include: {
-          user: true,
-        },
-      },
-    },
   });
 
   // console.log(userSession?.Follower);

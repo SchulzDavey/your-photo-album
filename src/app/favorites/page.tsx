@@ -10,14 +10,6 @@ const FavoritesPage = async () => {
   const assets = await prisma.asset.findMany({
     where: {
       userId: (session?.user as User)?.id,
-      Tag: {
-        some: {
-          name: 'favorite',
-        },
-      },
-    },
-    include: {
-      Tag: true,
     },
   });
   const albums = await prisma.album.findMany({

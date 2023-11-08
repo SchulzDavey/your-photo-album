@@ -82,11 +82,16 @@ export async function GET(request: NextRequest, response: NextResponse) {
     return NextResponse.json({ message: 'User not found' }, { status: 400 });
   }
 
-  const albums = await prisma.album.findMany({
-    where: {
-      userId: (session?.user as User)?.id,
-    },
-  });
+  try {
+    const albums = await prisma.album.findMany({
+      where: {
+        userId: (session?.user as User)?.id,
+      },
+    });
 
-  return NextResponse.json({ albums }, { status: 200 });
+    return NextResponse.json({ albums }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    NextResponse.json({ message: 'An error has occured' + error });
+  }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Album, Asset, Tag } from '@prisma/client';
+import { Album, Asset } from '@prisma/client';
 import axios from 'axios';
 import { HeartIcon } from 'lucide-react';
 import { CldImageProps } from 'next-cloudinary';
@@ -19,12 +19,12 @@ const CloudinaryImage = (
   const { asset, albums } = props;
   const router = useRouter();
   const [isFavorited, setIsFavorited] = useState(
-    asset?.Tag.some((tag: Tag) => tag.name === 'favorite')
+    asset?.tags.includes('favorite')
   );
 
   const addToFavorites = async (data: any, tag: string) => {
     await axios
-      .patch('/api/tag/' + data.id, { tag })
+      .patch('/api/tag/' + data.id, { tags: tag })
       .then((response) => {
         router.refresh();
       })

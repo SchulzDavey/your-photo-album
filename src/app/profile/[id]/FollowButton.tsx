@@ -6,10 +6,10 @@ import {
   AvatarImage,
 } from '@/src/components/ui/avatar';
 import { Button } from '@/src/components/ui/button';
-import { Follower, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const FollowButton = ({ userProfile }: { userProfile: User }) => {
   const router = useRouter();

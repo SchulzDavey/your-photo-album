@@ -22,7 +22,7 @@ const UploadButton = () => {
                 toast.success('Asset successfully uploaded!');
               });
           }}
-          uploadPreset="v0u9n21m"
+          uploadPreset="ts3tuyxs"
         />
       </div>
     </Button>
