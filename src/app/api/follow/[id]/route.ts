@@ -14,34 +14,28 @@ export async function POST(
     return NextResponse.json({ message: 'No user found' }, { status: 400 });
   }
 
+  const user = await prisma.user.findUnique({
+    where: {
+      id: (session?.user as User).id,
+    },
+  });
+
+  const updatedFollowingIds = [...(user?.followingIds || [])];
+  updatedFollowingIds.push(params.id);
+
   try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: (session?.user as User)?.id,
+      },
+      data: {
+        followingIds: updatedFollowingIds,
+      },
+    });
+
+    return NextResponse.json({ updatedUser }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: error }, { status: 400 });
   }
-
-  // const updatedFollowUser = await prisma.follower.create({
-  //   data: {
-  //     userId: (session?.user as User)?.id,
-  //     followedUserId: params.id,
-  //     followed: true,
-  //   },
-  // });
-
-  // const userWithFollowers = await prisma.user.findUnique({
-  //   where: {
-  //     id: params.id,
-  //   },
-  //   include: {
-  //     Follower: {
-  //       include: {
-  //         user: true,
-  //       },
-  //     },
-  //   },
-  // });
-
-  // console.log(userWithFollowers);
-
-  // return NextResponse.json(updatedFollowUser, { status: 200 });
 }

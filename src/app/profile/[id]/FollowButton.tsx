@@ -11,15 +11,17 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const FollowButton = ({ userProfile }: { userProfile: User }) => {
+const FollowButton = ({
+  userSession,
+  userProfile,
+}: {
+  userSession: User;
+  userProfile: User;
+}) => {
   const router = useRouter();
-  const [follow, setFollow] = useState(false);
-
-  // useEffect(() => {
-  //   userSession.Follower.map((follow: Follower) => {
-  //     setFollow(follow.followed!);
-  //   });
-  // }, []);
+  const [follow, setFollow] = useState(
+    userSession.followingIds.includes(userProfile.id)
+  );
 
   const followProfile = async () => {
     await axios
